@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout</title>
+  <link rel="stylesheet" href="../assets/css/bootstrap-icons.css" />
+  <link rel="stylesheet" href="../assets/css/bootstrap.css" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+
+<style>
+  .checkout-heading {
+    color: var(--accent-dark);
+    font-family: Georgia, serif;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-control {
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .form-control::placeholder {
+    color: #adb5bd;
+  }
+
+  .radio-box {
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .radio-box input[type="radio"] {
+    accent-color: var(--dark);
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-right: 0.75rem;
+    margin-top: 0;
+  }
+
+  .radio-box label {
+    margin: 0;
+    cursor: pointer;
+    width: 100%;
+    font-size: 0.95rem;
+  }
+
+  .order-summary-box {
+    background-color: transparent;
+  }
+
+  .summary-product-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    background-color: #f4f4f4;
+    border-radius: 4px;
+  }
+
+  .text-red {
+    color: #d9564a;
+    font-weight: 500;
+  }
+
+  .btn-apply {
+    background-color: #96745a;
+    color: white;
+    border: none;
+    border-radius: 4px;
+  }
+
+  .btn-apply:hover {
+    background-color: #705b4f;
+    color: white;
+  }
+
+  .complete-order-btn {
+    background-color: #96745a;
+    color: white;
+    border: none;
+    border-radius: 2px;
+    padding: 12px;
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .complete-order-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+
+  .complete-order-btn:hover:not(:disabled) {
+    background-color: #705b4f;
+  }
+</style>
+</head>
+
+<body>
+  <div class="topbar py-2 border-bottom d-flex justify-content-between align-items-center px-4">
+    <span class="topbar-msg flex-grow-1 text-center">
+      Free shipping for orders above 499.000 VND - Hotline 1900 123 654
+    </span>
+
+    <div class="dropdown">
+
+      <a href="#" class="topbar-auth d-flex align-items-center gap-1 text-decoration-none"
+        style="cursor:pointer; color:#7c6858;" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-person-circle fs-5"></i>
+        <i class="bi bi-chevron-down" style="font-size:0.75rem;"></i>
+      </a>
+
+      <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+
+        <li>
+          <a class="dropdown-item" href="account_overview.html">
+            <i class="bi bi-person me-2"></i>
+            Account Overview
+          </a>
+        </li>
+
+        <li>
+          <a class="dropdown-item" href="order_history.html">
+            <i class="bi bi-clock-history me-2"></i>
+            Order History
+          </a>
+        </li>
+
+        <li>
+          <a class="dropdown-item" href="wishlist.html">
+            <i class="bi bi-heart me-2"></i>
+            Wishlist
+          </a>
+        </li>
+
+        <li>
+          <a class="dropdown-item" href="tracking_order.html">
+            <i class="bi bi-truck me-2"></i>
+            Track Orders
+          </a>
+        </li>
+
+         <li>
+          <a class="dropdown-item" href="recommend.html">
+              <i class="bi bi-stars me-2"></i>
+              Recommended For You
+            </a>
+          </li>
+
+
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+
+        <li>
+          <a class="dropdown-item text-danger" href="login_register.html">
+            <i class="bi bi-box-arrow-right me-2"></i>
+            Logout
+          </a>
+        </li>
+
+      </ul>
+
+    </div>
+  </div>
+  </div>
+  <header class="navbar navbar-expand-lg navbar-light py-2 border-bottom" style="background-color: #fdf9f6">
+    <div class="container-fluid px-4 px-lg-5">
+      <!-- Logo -->
+      <a class="navbar-brand" href="lookbook_cus.html">
+        <img src="../assets/images/Logo.png" alt="Kooleyes" style="height: 55px" />
+      </a>
+
+      <!-- Nút toggle cho mobile -->
+      <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
+        data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Menu chính -->
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav mx-auto gap-lg-4 text-uppercase small">
+          <li class="nav-item"><a class="nav-link" href="lookbook_cus.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="homepage.html">Products</a></li>
+
+          <!-- Dropdown Collections -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Collections
+            </a>
+            <ul class="dropdown-menu shadow-sm border-0" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="#">Crystal Collection</a></li>
+              <li><a class="dropdown-item" href="#">Aero Collection</a></li>
+              <li><a class="dropdown-item" href="#">Veggie Collection</a></li>
+              <li><a class="dropdown-item" href="#">Pocket Collection</a></li>
+              <li><a class="dropdown-item" href="#">Edge Collection</a></li>
+              <li><a class="dropdown-item" href="#">Retro Collection</a></li>
+              <li><a class="dropdown-item" href="#">Solar Collection</a></li>
+              <li><a class="dropdown-item" href="#">Urban Collection</a></li>
+              <li><a class="dropdown-item" href="#">Cyber Collection</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        </ul>
+
+        <!-- Các Icon phía bên phải -->
+        <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+          <div class="d-none d-lg-flex align-items-center rounded-pill border px-3 py-1">
+            <input type="text" class="form-control form-control-sm border-0 bg-transparent shadow-none"
+              placeholder="Search" />
+            <i class="bi bi-search"></i>
+          </div>
+          <a href="wishlist.html" class="text-dark text-decoration-none">
+            <i class="bi bi-heart fs-5" role="button"></i>
+          </a>
+          <a href="cart.html" class="text-dark text-decoration-none">
+            <i class="bi bi-cart fs-5" role="button"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="container py-5">
+    <div class="row g-5">
+      <div class="col-lg-7 pe-lg-5">
+        <h4 class="checkout-heading">Shipping</h4>
+
+        <form id="checkoutForm">
+          <div class="row g-3 mb-4">
+            <div class="col-12">
+              <input type="text" class="form-control required-field" placeholder="Full Name" id="fullName" />
+            </div>
+            <div class="col-md-7">
+              <input type="email" class="form-control required-field" placeholder="Email Address" id="email" />
+            </div>
+            <div class="col-md-5">
+              <input type="tel" class="form-control required-field" placeholder="Phone Number" id="phone" />
+            </div>
+            <div class="col-12">
+              <input type="text" class="form-control required-field" placeholder="Street Address" id="address" />
+            </div>
+            <div class="col-md-4">
+              <input type="text" class="form-control required-field" placeholder="City / Province" id="city" />
+            </div>
+            <div class="col-md-4">
+              <input type="text" class="form-control required-field" placeholder="District" id="district" />
+            </div>
+            <div class="col-md-4">
+              <input type="text" class="form-control required-field"placeholder="Ward" id="ward" />
+            </div>
+            <div class="col-12">
+              <textarea class="form-control" rows="3" placeholder="Order Note" id="orderNote"></textarea>
+            </div>
+          </div>
+
+          <h4 class="checkout-heading">Shipping Method</h4>
+          <div class="mb-4">
+            <div class="radio-box">
+              <input type="radio" name="shippingMethod" id="standardDelivery" checked />
+              <label for="standardDelivery">Standard Delivery</label>
+            </div>
+            <div class="radio-box">
+              <input type="radio" name="shippingMethod" id="expressDelivery" />
+              <label for="expressDelivery">Express Delivery</label>
+            </div>
+          </div>
+
+          <h4 class="checkout-heading">Payment</h4>
+          <div class="mb-4">
+            <div class="radio-box">
+              <input type="radio" name="paymentMethod" id="cod" />
+              <label for="cod">Cash on Delivery</label>
+            </div>
+            <div class="radio-box">
+              <input type="radio" name="paymentMethod" id="bankTransfer" checked />
+              <label for="bankTransfer">Bank Transfer Payment</label>
+            </div>
+            <div class="d-flex gap-2 mt-3 ps-3 align-items-center">
+              <img src="../assets/images/visa.svg" height="24" />
+              <img src="../assets/images/mastercard.png" height="35" />
+            </div>
+          </div>
+
+          <button type="button" id="completeOrderBtn" class="complete-order-btn mt-4 fw-bold" disabled>
+            Complete Order
+          </button>
+        </form>
+      </div>
+
+      <div class="col-lg-5 ps-lg-4">
+        <h4 class="checkout-heading">Order Summary</h4>
+
+        <div class="d-flex justify-content-between align-items-center mb-5">
+          <div class="d-flex align-items-center gap-3">
+            <img src="../assets/images/Sản phẩm lẻ/Origami - 803,600đ/Origami_(Gold).jpg" alt=""
+              class="summary-product-img" />
+            <div>
+              <h6 class="fw-bold mb-1" style="font-family: inherit">
+                Origami
+              </h6>
+              <small class="text-muted">x1 Gold</small>
+            </div>
+          </div>
+          <span class="text-red">804.000VND</span>
+        </div>
+
+        <h4 class="checkout-heading mt-5">Available Voucher</h4>
+        <div class="d-flex gap-2 mb-4">
+          <input type="text" class="form-control" placeholder="Discount Code" />
+          <button class="btn btn-apply px-4">Apply</button>
+        </div>
+
+        <div class="order-summary-box border-top pt-3">
+          <div class="d-flex justify-content-between mb-2">
+            <span class="text-dark small fw-medium">Subtotal</span>
+            <span class="text-dark small fw-bold">804.000VND</span>
+          </div>
+          <div class="d-flex justify-content-between mb-2">
+            <span class="text-dark small fw-medium">Shipping</span>
+            <span class="text-dark small fw-bold">30.000 VND</span>
+          </div>
+          <div class="d-flex justify-content-between mb-2">
+            <span class="text-dark small fw-medium">Member Discount</span>
+            <span class="text-dark small">0đ</span>
+          </div>
+          <div class="d-flex justify-content-between border-bottom pb-3 mb-3">
+            <span class="text-dark small fw-medium">Coupon Discount</span>
+            <span class="text-dark small">0đ</span>
+          </div>
+          <div class="d-flex justify-content-between mt-2">
+            <span class="text-muted fw-bold">Total</span>
+            <span class="text-red fs-5"><b>834.000 VND</b></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer pt-5 pb-3 border-top mt-5">
+    <div class="container">
+      <div class="row mb-5 g-4">
+        <div class="col-lg-4 col-md-12">
+          <h3 class="d-block mx-auto text-center">
+            <a href="#" class="d-block mb-3">
+              <img src="../assets/images/Logo.png" alt="Kooleyes Logo" class="d-block mx-auto"
+                style="height: 120px; width: auto" />
+            </a>
+          </h3>
+          <p class="fw-bold small mb-4" style="color: #7c6858; text-align: center">
+            Kool Eyes, Kool Style
+          </p>
+          <div class="subscribe-wrapper rounded-pill d-flex align-items-center p-1 mx-auto" style="max-width: 300px">
+            <input type="email" class="form-control border-0 bg-transparent px-3 shadow-none"
+              placeholder="Enter your e-mail" style="font-size: 0.85rem" />
+            <button class="btn btn-dark rounded-pill px-4" type="button" style="font-size: 0.85rem">
+              Subscribe Now!
+            </button>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-12">
+          <h6 class="fw-bold mb-3">KOOLEYES EYEWEAR</h6>
+          <ul class="list-unstyled text-muted small">
+            <li class="mb-1">Enterprise Registration No.: 0110449461</li>
+            <li class="mb-1">first issued on August 25, 2025,</li>
+            <li class="mb-1">Ho Chi Minh City People's Committee.</li>
+            <li class="mb-1">669 Do Muoi, Thu Duc City, HCMC, Vietnam</li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-12">
+          <h6 class="fw-bold mb-3">POLICY</h6>
+          <ul class="list-unstyled text-muted small">
+            <li class="mb-1">
+              <a href="return-exchange-policy.html" class="text-decoration-none text-muted">Return and Exchange
+                Policy</a>
+            </li>
+            <li class="mb-1">
+              <a href="privacy-policy.html" class="text-decoration-none text-muted">Privacy Policy</a>
+            </li>
+            <li class="mb-1">
+              <a href="warranty-policy.html" class="text-decoration-none text-muted">Warranty Policy</a>
+            </li>
+            <li class="mb-1">
+              <a href="shipping-policy.html" class="text-decoration-none text-muted">Shipping Policy</a>
+            </li>
+            <li class="mb-1">
+              <a href="payment-policy.html" class="text-decoration-none text-muted">Payment Policy</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-12">
+          <h6 class="fw-bold mb-3">SUPPORT</h6>
+          <ul class="list-unstyled text-muted small">
+            <li class="mb-1">
+              <a href="#" class="text-decoration-none text-muted">Store Location</a>
+            </li>
+            <li class="mb-1">
+              <a href="faq.html" class="text-decoration-none text-muted">F.A.Q</a>
+            </li>
+            <li class="mb-1">1900 1234</li>
+            <li class="mb-1">kooleyesxinchao@gmail.com</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column flex-md-row justify-content-between border-top pt-4">
+        <p class="text-muted small mb-0">
+          Copyright 2026 © Kooleyes All Rights Reserved.
+        </p>
+        <div class="d-flex gap-3 mt-3 mt-md-0">
+          <i class="bi bi-facebook" role="button"></i>
+          <i class="bi bi-instagram" role="button"></i>
+          <i class="bi bi-tiktok" role="button"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Lấy tất cả các ô input bắt buộc và nút Complete Order
+    const requiredInputs = document.querySelectorAll(".required-field");
+    const completeOrderBtn = document.getElementById("completeOrderBtn");
+
+    function validateForm() {
+      let isFormValid = true;
+
+      // Duyệt qua từng ô, nếu có bất kỳ ô nào rỗng hoặc chỉ toàn dấu cách thì đánh dấu là false
+      requiredInputs.forEach(function (input) {
+        if (input.value.trim() === "") {
+          isFormValid = false;
+        }
+      });
+
+      // Nếu tất cả đều có dữ liệu (isFormValid = true) -> mở khóa nút
+      if (isFormValid) {
+        completeOrderBtn.disabled = false;
+      } else {
+        // Ngược lại, nếu có 1 ô trống -> khóa nút
+        completeOrderBtn.disabled = true;
+      }
+    }
+
+    // Gắn sự kiện "input" cho các ô: mỗi khi người dùng gõ 1 phím, hàm validateForm sẽ chạy lại
+    requiredInputs.forEach(function (input) {
+      input.addEventListener("input", validateForm);
+    });
+
+    // Chạy kiểm tra ngay khi trang vừa tải xong để đảm bảo nút bị khóa ở trạng thái mặc định (vì các ô đang trống)
+    validateForm();
+
+    // Xử lý khi bấm nút Complete Order
+    completeOrderBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      if (!this.disabled) {
+        window.location.href = "order_success.html";
+      }
+    });
+  });
+</script>
+</body>
+
+</html>

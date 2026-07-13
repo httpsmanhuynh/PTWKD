@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lookbook_Customer</title>
+    <link rel="stylesheet" href="../assets/css/bootstrap-icons.css" />
+    <link rel="stylesheet" href="../assets/css/bootstrap.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+  </head>
+
+  <body>
+    <div
+      class="topbar py-2 border-bottom d-flex justify-content-between align-items-center px-4"
+    >
+      <span class="topbar-msg flex-grow-1 text-center">
+        Free shipping for orders above 499.000 VND - Hotline 1900 123 654
+      </span>
+
+      <div class="dropdown">
+        <a
+          href="#"
+          class="topbar-auth d-flex align-items-center gap-1 text-decoration-none"
+          style="cursor: pointer; color: #7c6858"
+          role="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i class="bi bi-person-circle fs-5"></i>
+          <i class="bi bi-chevron-down" style="font-size: 0.75rem"></i>
+        </a>
+
+        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+          <li>
+            <a class="dropdown-item" href="account_detail.html">
+              <i class="bi bi-person me-2"></i>
+              Account Overview
+            </a>
+          </li>
+
+          <li>
+            <a class="dropdown-item" href="order_history.html">
+              <i class="bi bi-clock-history me-2"></i>
+              Order History
+            </a>
+          </li>
+
+          <li>
+            <a class="dropdown-item" href="wishlist.html">
+              <i class="bi bi-heart me-2"></i>
+              Wishlist
+            </a>
+          </li>
+
+          <li>
+            <a class="dropdown-item" href="tracking_order.html">
+              <i class="bi bi-truck me-2"></i>
+              Track Orders
+            </a>
+          </li>
+
+          <li>
+            <a class="dropdown-item" href="recommend.html">
+              <i class="bi bi-stars me-2"></i>
+              Recommended For You
+            </a>
+          </li>
+
+          <li>
+            <hr class="dropdown-divider" />
+          </li>
+
+          <li>
+            <a class="dropdown-item text-danger" href="login_register.html">
+              <i class="bi bi-box-arrow-right me-2"></i>
+              Logout
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <header
+      class="navbar navbar-expand-lg navbar-light py-2 border-bottom"
+      style="background-color: #fdf9f6"
+    >
+      <div class="container-fluid px-4 px-lg-5">
+        <!-- Logo -->
+        <a class="navbar-brand" href="lookbook_cus.html">
+          <img
+            src="../assets/images/Logo.png"
+            alt="Kooleyes"
+            style="height: 55px"
+          />
+        </a>
+
+        <!-- Nút toggle cho mobile -->
+        <button
+          class="navbar-toggler border-0 shadow-none"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#mainNav"
+          aria-controls="mainNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menu chính -->
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav mx-auto gap-lg-4 text-uppercase small">
+            <li class="nav-item">
+              <a class="nav-link active" href="lookbook_cus.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="homepage.html">Products</a>
+            </li>
+
+            <!-- Dropdown Collections -->
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Collections
+              </a>
+              <ul
+                class="dropdown-menu shadow-sm border-0"
+                aria-labelledby="navbarDropdown"
+              >
+                <li>
+                  <a class="dropdown-item" href="#">Crystal Collection</a>
+                </li>
+                <li><a class="dropdown-item" href="#">Aero Collection</a></li>
+                <li><a class="dropdown-item" href="#">Veggie Collection</a></li>
+                <li><a class="dropdown-item" href="#">Pocket Collection</a></li>
+                <li><a class="dropdown-item" href="#">Edge Collection</a></li>
+                <li><a class="dropdown-item" href="#">Retro Collection</a></li>
+                <li><a class="dropdown-item" href="#">Solar Collection</a></li>
+                <li><a class="dropdown-item" href="#">Urban Collection</a></li>
+                <li><a class="dropdown-item" href="#">Cyber Collection</a></li>
+              </ul>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html">Contact</a>
+            </li>
+          </ul>
+
+          <!-- Các Icon phía bên phải -->
+          <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+            <div
+              class="d-none d-lg-flex align-items-center rounded-pill border px-3 py-1"
+            >
+              <input
+                type="text"
+                class="form-control form-control-sm border-0 bg-transparent shadow-none"
+                placeholder="Search"
+              />
+              <i class="bi bi-search"></i>
+            </div>
+            <a href="wishlist.html" class="text-dark text-decoration-none">
+              <i class="bi bi-heart fs-5" role="button"></i>
+            </a>
+            <a href="cart.html" class="text-dark text-decoration-none">
+              <i class="bi bi-cart fs-5" role="button"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- BANNER LOOKBOOK (Popup đã được gỡ ra khỏi đây) -->
+    <!-- ========================================== -->
+    <!-- 1. BANNER LOOKBOOK (Không có thẻ Popup)    -->
+    <!-- ========================================== -->
+    <section
+      class="position-relative d-flex align-items-center"
+      style="
+        background-image: url(../assets/images/banner_lookbook.png);
+        background-size: cover;
+        background-position: center;
+        min-height: 500px;
+      "
+    >
+      <div
+        class="position-absolute top-0 start-0 w-100 h-100"
+        style="background-color: rgba(0, 0, 0, 0.1)"
+      ></div>
+
+      <div class="container px-4 px-lg-5 position-relative z-1">
+        <div class="row py-5">
+          <div class="col-lg-8 text-white">
+            <p
+              class="mb-2 text-uppercase"
+              style="letter-spacing: 2px; font-size: 13px"
+            >
+              KOOLEYES | SERIES 2026
+            </p>
+            <h1
+              class="display-3 fw-bold fst-italic mb-3"
+              style="font-family: Georgia, serif"
+            >
+              NEW<br />COLLECTIONS
+            </h1>
+            <p class="fs-5 fw-bold">Kool eyes - Kool Style</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 2. BỘ SƯU TẬP: KOOLEYES EDGE               -->
+    <!-- ========================================== -->
+    <section class="py-5 bg-white">
+      <div class="container pt-4">
+        <h2
+          class="display-5 text-center mb-5"
+          style="font-family: Georgia, serif; color: #191c1e"
+        >
+          Kooleyes Edge
+        </h2>
+
+        <div class="row g-0 align-items-stretch mb-5">
+          <div class="col-lg-6">
+            <img
+              src="../assets/images/2nd-lookbook.png"
+              alt="Kooleyes Edge"
+              class="img-fluid w-100 h-100"
+              style="object-fit: cover"
+            />
+          </div>
+
+          <div
+            class="col-lg-6 p-5 d-flex flex-column justify-content-center"
+            style="background-color: #000000"
+          >
+            <p
+              class="fst-italic lh-lg mb-4 text-center px-lg-4"
+              style="
+                color: #ffffff;
+                opacity: 0.95;
+                font-family: Georgia, serif;
+                font-size: 0.95rem;
+              "
+            >
+              The Edge Collection is inspired by clean lines, bold details, and
+              effortless confidence. Designed for those who appreciate modern
+              style with a touch of individuality, these frames strike the
+              perfect balance between simplicity and statement. Versatile enough
+              for everyday wear yet distinctive enough to stand out, Edge is
+              made to complement every look and every moment.
+            </p>
+            <p
+              class="text-end mb-0 pe-lg-4"
+              style="
+                color: #ffffff;
+                opacity: 0.6;
+                font-size: 0.85rem;
+                letter-spacing: 1.5px;
+              "
+            >
+              -KOOLEYES-
+            </p>
+          </div>
+        </div>
+        <div class="text-center">
+          <span
+            class="fs-6 fw-bold text-uppercase pb-1"
+            style="
+              border-bottom: 2px solid #191c1e;
+              cursor: pointer;
+              letter-spacing: 1px;
+            "
+          >
+            SEE ALL PRODUCTS
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 3. BỘ SƯU TẬP: KOOLEYES POCKET             -->
+    <!-- ========================================== -->
+    <section class="py-5" style="background-color: #f8f9fa">
+      <div class="container py-4">
+        <div class="row align-items-center">
+          <!-- Ảnh cô gái áo nâu -->
+          <div class="col-lg-5 mb-4 mb-lg-0">
+            <img
+              src="../assets/images/3rd_lookbok.png"
+              alt="Pocket Glass"
+              class="img-fluid w-100 object-fit-cover"
+            />
+          </div>
+          <!-- Nội dung -->
+          <div class="col-lg-7 ps-lg-5">
+            <h2
+              class="display-4 mb-4 lh-1"
+              style="font-family: Georgia, serif; color: #191c1e"
+            >
+              Kooleyes<br />Pocket
+            </h2>
+            <p class="fs-6 mb-4 lh-base" style="color: #4a4a4a">
+              Compact, lightweight, and made for everyday moments. The Pocket
+              Collection combines simple design with effortless style, creating
+              frames that are easy to wear, easy to carry, and always ready to
+              go wherever life takes you.
+            </p>
+
+            <!-- Ảnh ngang -->
+            <img
+              src="../assets/images/4th_lookbook.jpg"
+              alt="Pocket Lifestyle"
+              class="img-fluid mb-4 w-100 object-fit-cover"
+              style="height: 140px; object-position: center 20%"
+            />
+
+            <!-- Nhóm nút -->
+            <div class="d-flex align-items-center gap-4">
+              <button
+                class="btn btn-dark rounded-0 px-4 py-2 text-uppercase fw-bold"
+                style="
+                  font-size: 13px;
+                  letter-spacing: 1px;
+                  background-color: black;
+                "
+              >
+                Shop Series
+              </button>
+              <span
+                class="fw-medium text-dark pb-1"
+                style="
+                  border-bottom: 1px solid black;
+                  cursor: pointer;
+                  font-size: 14px;
+                "
+                >View all &rarr;</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 4. BỘ SƯU TẬP: KOOLEYES VEGGIE             -->
+    <!-- ========================================== -->
+    <section class="py-5 text-white" style="background-color: #000000">
+      <div class="container py-5">
+        <div class="row align-items-center">
+          <!-- Chữ to bên trái -->
+          <div class="col-lg-4 mb-5 mb-lg-0">
+            <h2
+              class="display-3 fw-bold lh-1"
+              style="font-family: Georgia, serif; color: #ffffff"
+            >
+              KOOLEYES<br />VEGGIE
+            </h2>
+          </div>
+          <!-- Nội dung và 3 ảnh bên phải -->
+          <div class="col-lg-8">
+            <p
+              class="fs-6 lh-base mb-4"
+              style="max-width: 550px; color: #cccccc"
+            >
+              Fresh, playful, and full of personality. The Veggie Collection
+              brings soft colors and modern designs together, creating
+              lightweight frames that add a fun and refreshing touch to your
+              everyday style.
+            </p>
+
+            <button
+              class="btn rounded-0 px-4 py-2 text-uppercase fw-bold mb-4 text-white"
+              style="
+                border: 1px solid white;
+                font-size: 13px;
+                letter-spacing: 1px;
+                background: transparent;
+              "
+            >
+              Explore Series
+            </button>
+
+            <div class="row g-2">
+              <div class="col-4">
+                <img
+                  src="../assets/images/5th_lookbook.jpg"
+                  alt="Veggie Sight"
+                  class="img-fluid w-100 object-fit-cover"
+                />
+              </div>
+              <div class="col-4">
+                <img
+                  src="../assets/images/6th_lookbook.png"
+                  alt="Veggie Portrait"
+                  class="img-fluid w-100 object-fit-cover"
+                />
+              </div>
+              <div class="col-4">
+                <img
+                  src="../assets/images/7th_lookbook.png"
+                  alt="Veggie Fashion"
+                  class="img-fluid w-100 object-fit-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer pt-5 pb-3 border-top">
+      <div class="container">
+        <div class="row mb-5 g-4">
+          <div class="col-lg-4 col-md-12">
+            <h3 class="d-block mx-auto">
+              <img
+                src="../assets/images/Logo.png"
+                alt="Kooleyes Logo"
+                class="d-block mx-auto"
+                style="height: 120px; width: auto"
+              />
+            </h3>
+            <p
+              class="fw-bold small mb-4"
+              style="color: #7c6858; text-align: center"
+            >
+              Kool Eyes, Kool Style
+            </p>
+            <div
+              class="subscribe-wrapper rounded-pill d-flex align-items-center p-1 mx-auto"
+            >
+              <input
+                type="email"
+                class="form-control border-0 bg-transparent px-3 shadow-none"
+                placeholder="Enter your e-mail"
+              />
+              <button class="btn btn-dark rounded-pill px-4" type="button">
+                Subscribe Now!
+              </button>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-12">
+            <h6 class="fw-bold mb-3">KOOLEYES EYEWEAR</h6>
+            <ul class="list-unstyled text-muted small">
+              <li class="mb-1">Enterprise Registration No.: 0110449461</li>
+              <li class="mb-1">first issued on August 25, 2025,</li>
+              <li class="mb-1">Ho Chi Minh City People's Committee.</li>
+              <li class="mb-1">669 Do Muoi, Thu Duc City, HCMC, Vietnam</li>
+            </ul>
+          </div>
+          <div class="col-lg-2 col-md-4 col-sm-12">
+            <h6 class="fw-bold mb-3">POLICY</h6>
+            <ul class="list-unstyled text-muted small">
+              <li class="mb-1">
+                <a href="#" class="text-decoration-none text-muted"
+                  >Return and Exchange Policy</a
+                >
+              </li>
+              <li class="mb-1">
+                <a href="#" class="text-decoration-none text-muted"
+                  >Privacy Policy</a
+                >
+              </li>
+              <li class="mb-1">
+                <a href="#" class="text-decoration-none text-muted"
+                  >Warranty Policy</a
+                >
+              </li>
+              <li class="mb-1">
+                <a href="#" class="text-decoration-none text-muted"
+                  >Shipping Policy</a
+                >
+              </li>
+              <li class="mb-1">
+                <a href="#" class="text-decoration-none text-muted"
+                  >Payment Policy</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-12">
+            <h6 class="fw-bold mb-3">SUPPORT</h6>
+            <ul class="list-unstyled text-muted small">
+              <li class="mb-1">
+                <a href="#" class="text-decoration-none text-muted"
+                  >Store Location</a
+                >
+              </li>
+              <li class="mb-1">
+                <a href="#" class="text-decoration-none text-muted">F.A.Q</a>
+              </li>
+              <li class="mb-1">1900 1234</li>
+              <li class="mb-1">kooleyesxinchao@gmail.com</li>
+            </ul>
+          </div>
+        </div>
+
+        <div
+          class="d-flex flex-column flex-md-row justify-content-between border-top pt-4"
+        >
+          <p class="text-muted small mb-0">
+            Copyright 2026 © Kooleyes All Rights Reserved.
+          </p>
+          <div class="d-flex gap-3 mt-3 mt-md-0">
+            <i class="bi bi-facebook" role="button"></i>
+            <i class="bi bi-instagram" role="button"></i>
+            <i class="bi bi-tiktok" role="button"></i>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ========================================== -->
+    <!-- MODAL POPUP: TỰ ĐỘNG HIỂN THỊ KHI LOAD TRANG -->
+    <!-- ========================================== -->
+    <div
+      class="modal fade"
+      id="suggestionModal"
+      tabindex="-1"
+      aria-labelledby="suggestionModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div
+          class="modal-content border-0 p-4"
+          style="
+            border-radius: 8px;
+            box-shadow: 0px 8px 40px rgba(0, 0, 0, 0.11);
+          "
+        >
+          <div
+            class="modal-body text-center d-flex flex-column align-items-center gap-3"
+          >
+            <h4 class="fw-bold mb-0" style="color: #191c1e">
+              New collection alert
+            </h4>
+
+            <!-- Nội dung mô tả -->
+            <p class="text-muted small mb-1">
+              The Edges collection features soft, cool tones that perfectly
+              complement your muted summer aesthetic.
+            </p>
+
+            <!-- Hộp Gợi ý sản phẩm -->
+            <div
+              class="d-flex align-items-center rounded-pill p-2 w-100"
+              style="
+                background-color: rgba(150, 116, 90, 0.1);
+                border: 1px solid rgba(150, 116, 90, 0.2);
+              "
+            >
+              <img
+                src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/UnfvMvkxUj/q1p9yite_expires_30_days.png"
+                alt="Aden Clear"
+                class="rounded-pill object-fit-cover"
+                style="width: 80px; height: 50px"
+              />
+              <div class="text-start ms-3">
+                <div class="fw-bold" style="color: #96745a">Aden Clear</div>
+                <div class="small fw-semibold" style="color: #96745a">
+                  [95% Match] <i class="bi bi-star-fill text-warning"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Nút bấm -->
+            <div class="d-flex flex-column gap-2 w-100 mt-3">
+              <a
+                href="recommend.html"
+                class="btn fw-bold text-white py-2 text-center d-block"
+                style="background-color: #96745a; border-radius: 4px"
+              >
+                See suggestions <i class="bi bi-arrow-right ms-1"></i>
+              </a>
+              <button
+                class="btn fw-bold text-white py-2"
+                style="background-color: #7c6858; border-radius: 4px"
+                data-bs-dismiss="modal"
+              >
+                Maybe later
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Khởi tạo và gọi Modal
+        var myModal = new bootstrap.Modal(
+          document.getElementById("suggestionModal"),
+        );
+        myModal.show();
+      });
+    </script>
+  </body>
+</html>

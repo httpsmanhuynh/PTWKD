@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kooleyes - Reset Password</title>
+
+  <link rel="stylesheet" href="../assets/css/bootstrap-icons.css" />
+  <link rel="stylesheet" href="../assets/css/bootstrap.css" />
+  <link rel="stylesheet" href="../assets/css/style_thao.css" />
+</head>
+
+<body>
+  <div class="topbar text-center py-2 border-bottom position-relative">
+    <span class="topbar-msg">Free shipping for orders above 499.000 VND - Hotline 1900 123 654</span>
+    <span class="topbar-auth position-absolute top-50 end-0 translate-middle-y me-4">
+    </span>
+  </div>
+
+  <!-- NAVBAR -->
+  <header class="navbar navbar-expand-lg navbar-light py-2 border-bottom" style="background-color: #fdf9f6">
+    <div class="container-fluid px-4 px-lg-5">
+      <!-- Logo -->
+      <a class="navbar-brand" href="lookbook_cus.html">
+        <img src="../assets/images/Logo.png" alt="Kooleyes" style="height: 55px" />
+      </a>
+
+      <!-- Nút toggle cho mobile -->
+      <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
+        data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Menu chính -->
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav mx-auto gap-lg-4 text-uppercase small">
+          <li class="nav-item">
+            <a class="nav-link" href="lookbook_guest.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="homepage.html">Products</a>
+          </li>
+
+          <!-- Dropdown Collections -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Collections
+            </a>
+            <ul class="dropdown-menu shadow-sm border-0" aria-labelledby="navbarDropdown">
+              <li>
+                <a class="dropdown-item" href="#">Crystal Collection</a>
+              </li>
+              <li><a class="dropdown-item" href="#">Aero Collection</a></li>
+              <li><a class="dropdown-item" href="#">Veggie Collection</a></li>
+              <li><a class="dropdown-item" href="#">Pocket Collection</a></li>
+              <li><a class="dropdown-item" href="#">Edge Collection</a></li>
+              <li><a class="dropdown-item" href="#">Retro Collection</a></li>
+              <li><a class="dropdown-item" href="#">Solar Collection</a></li>
+              <li><a class="dropdown-item" href="#">Urban Collection</a></li>
+              <li><a class="dropdown-item" href="#">Cyber Collection</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">Contact</a>
+          </li>
+        </ul>
+
+        <!-- Các Icon phía bên phải -->
+        <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+          <div class="d-none d-lg-flex align-items-center rounded-pill border px-3 py-1">
+            <input type="text" class="form-control form-control-sm border-0 bg-transparent shadow-none"
+              placeholder="Search" />
+            <i class="bi bi-search"></i>
+          </div>
+          <a href="#" class="text-dark text-decoration-none">
+            <i class="bi bi-heart fs-5" role="button"></i>
+          </a>
+          <a href="#" class="text-dark text-decoration-none">
+            <i class="bi bi-cart fs-5" role="button"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- RESET PASSWORD -->
+  <section class="auth-section">
+    <div class="auth-card auth-card-simple">
+      <div class="p-4">
+        <h5 class="text-center mb-2">Reset Password</h5>
+
+        <p class="text-center text-muted small mb-4">
+          Your new password must be different from previously used passwords.
+        </p>
+
+        <div class="mb-3">
+          <label class="form-label small fw-bold"> Password </label>
+
+          <div class="password-wrapper">
+            <input type="password" id="newPassword" class="form-control" placeholder="8+ characters" />
+
+            <i class="bi bi-eye password-toggle"></i>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label small fw-bold"> Confirm Password </label>
+
+          <div class="password-wrapper">
+            <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm password" />
+
+            <i class="bi bi-eye password-toggle"></i>
+          </div>
+        </div>
+
+        <button type="button" onclick="resetPassword()" class="btn btn-auth w-100">
+          RESET PASSWORD
+          <i class="bi bi-arrow-right ms-2"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer pt-5 pb-3 border-top">
+    <div class="container">
+      <div class="row mb-5 g-4">
+        <div class="col-lg-4 col-md-12">
+          <h3 class="d-block mx-auto">
+            <img src="../assets/images/Logo.png" alt="Kooleyes Logo" class="d-block mx-auto"
+              style="height: 120px; width: auto" />
+          </h3>
+          <p class="fw-bold small mb-4" style="color: #7c6858; text-align: center">
+            Kool Eyes, Kool Style
+          </p>
+          <div class="subscribe-wrapper rounded-pill d-flex align-items-center p-1 mx-auto">
+            <input type="email" class="form-control border-0 bg-transparent px-3 shadow-none"
+              placeholder="Enter your e-mail" />
+            <button class="btn btn-dark rounded-pill px-4" type="button">
+              Subscribe Now!
+            </button>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-12">
+          <h6 class="fw-bold mb-3">KOOLEYES EYEWEAR</h6>
+          <ul class="list-unstyled text-muted small">
+            <li class="mb-1">Enterprise Registration No.: 0110449461</li>
+            <li class="mb-1">first issued on August 25, 2025,</li>
+            <li class="mb-1">Ho Chi Minh City People's Committee.</li>
+            <li class="mb-1">669 Do Muoi, Thu Duc City, HCMC, Vietnam</li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-12">
+          <h6 class="fw-bold mb-3">POLICY</h6>
+          <ul class="list-unstyled text-muted small">
+            <li class="mb-1">
+              <a href="#" class="text-decoration-none text-muted">Return and Exchange Policy</a>
+            </li>
+            <li class="mb-1">
+              <a href="#" class="text-decoration-none text-muted">Privacy Policy</a>
+            </li>
+            <li class="mb-1">
+              <a href="#" class="text-decoration-none text-muted">Warranty Policy</a>
+            </li>
+            <li class="mb-1">
+              <a href="#" class="text-decoration-none text-muted">Shipping Policy</a>
+            </li>
+            <li class="mb-1">
+              <a href="#" class="text-decoration-none text-muted">Payment Policy</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-12">
+          <h6 class="fw-bold mb-3">SUPPORT</h6>
+          <ul class="list-unstyled text-muted small">
+            <li class="mb-1">
+              <a href="#" class="text-decoration-none text-muted">Store Location</a>
+            </li>
+            <li class="mb-1">
+              <a href="#" class="text-decoration-none text-muted">F.A.Q</a>
+            </li>
+            <li class="mb-1">1900 1234</li>
+            <li class="mb-1">kooleyesxinchao@gmail.com</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column flex-md-row justify-content-between border-top pt-4">
+        <p class="text-muted small mb-0">
+          Copyright 2026 © Kooleyes All Rights Reserved.
+        </p>
+        <div class="d-flex gap-3 mt-3 mt-md-0">
+          <i class="bi bi-facebook" role="button"></i>
+          <i class="bi bi-instagram" role="button"></i>
+          <i class="bi bi-tiktok" role="button"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    if (localStorage.getItem("otpVerified") !== "true") {
+      window.location.href = "forget_pw.html";
+    }
+
+    document.querySelectorAll(".password-toggle").forEach((icon) => {
+      icon.addEventListener("click", () => {
+        const input = icon.previousElementSibling;
+
+        const isHidden = input.type === "password";
+
+        input.type = isHidden ? "text" : "password";
+
+        icon.classList.toggle("bi-eye");
+        icon.classList.toggle("bi-eye-slash");
+      });
+    });
+
+    function resetPassword() {
+      const newPassword = document.getElementById("newPassword").value.trim();
+
+      const confirmPassword = document
+        .getElementById("confirmPassword")
+        .value.trim();
+
+      if (newPassword === "") {
+        alert("Please enter a new password.");
+        return;
+      }
+
+      if (newPassword.length < 8) {
+        alert("Password must be at least 8 characters.");
+        return;
+      }
+
+      if (confirmPassword === "") {
+        alert("Please confirm your password.");
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        alert("Passwords do not match.");
+        return;
+      }
+
+      alert("Password reset successfully!");
+
+      localStorage.removeItem("otpVerified");
+      localStorage.removeItem("recoveryEmail");
+
+      window.location.href = "login_register.html";
+    }
+  </script>
+
+  <script src="../assets/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

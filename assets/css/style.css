@@ -1,0 +1,264 @@
+:root {
+  --bg: #faf7f2;
+  --dark: #3d332a;
+  --muted: #8a7d6f;
+  --accent-dark: #a48663;
+  --line: #e9e1d5;
+}
+body {
+  font-family:
+    times new roman,
+    serif;
+  color: var(--dark);
+}
+h2,
+h5,
+h6,
+h3 {
+  font-family: Georgia, serif;
+}
+
+.topbar {
+  background: var(--bg);
+  font-size: 12px;
+}
+.topbar-msg {
+  color: #6b5f52;
+}
+.topbar-auth {
+  font-size: 12px;
+  color: #6b5f52;
+}
+.topbar-auth a {
+  color: #6b5f52;
+  text-decoration: none;
+}
+.topbar-auth a:hover {
+  text-decoration: underline;
+}
+.carousel-item img {
+  width: 100%;
+  height: 600px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.navbar {
+  min-height: 60px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.navbar-nav .nav-link {
+  color: #5a5044;
+}
+.navbar-nav .nav-link.active {
+  color: var(--accent-dark);
+  font-weight: bold;
+  border-bottom: 2px solid var(--accent-dark);
+}
+.dropdown-menu {
+  background-color: #fdf9f6;
+  border: 1px solid #e9e1d5;
+  border-radius: 0;
+  margin-top: 10px !important;
+  padding: 15px 0;
+}
+
+.dropdown-item {
+  color: #5a5044;
+  font-family: Georgia, serif;
+  font-size: 14px;
+  padding: 8px 25px;
+  transition: all 0.3s ease;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: transparent;
+  color: #a48663;
+  padding-left: 30px;
+}
+
+.dropdown-item.fw-bold {
+  color: #3d332a;
+}
+.search-box {
+  background: var(--bg);
+}
+.search-box input {
+  width: 100px;
+}
+
+.table-header {
+  background-color: #7c6858;
+  color: white;
+}
+.order-row {
+  border-bottom: 1px solid #cecece;
+  background-color: #fdf9f6;
+}
+
+.face-img {
+  height: 500px;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  border-radius: 4px;
+}
+
+.face-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.product-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.product-img {
+  position: relative;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+}
+
+.old-price {
+  color: var(--muted);
+  text-decoration: line-through;
+  font-weight: normal;
+  font-size: 12px;
+}
+
+.badge-sale {
+  background: #d9564a;
+}
+.badge-new {
+  background: #3fa889;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.product-img:hover .overlay,
+.product-img.clicked .overlay {
+  opacity: 1;
+  visibility: visible;
+}
+.overlay-links span {
+  margin-right: 10px;
+}
+
+.btn-brand-outline {
+  border-color: var(--accent-dark);
+  color: var(--accent-dark);
+}
+.btn-brand {
+  background: var(--accent-dark);
+  color: #fff;
+  font-weight: bold;
+}
+.btn-brand:hover {
+  background: #8c735b;
+  color: #fff;
+}
+
+.tryon-promo {
+  background: #f0e4d3;
+}
+.link-try {
+  color: var(--dark);
+  border-bottom: 1px solid var(--dark);
+  padding-bottom: 2px;
+}
+.vr-container {
+  position: relative;
+  overflow: hidden;
+  background: #e0e0e0;
+  border-radius: 1.5rem;
+}
+
+.vr-standard {
+  width: 220px;
+  height: 400px;
+}
+
+.vr-large {
+  width: 300px;
+  height: 460px;
+}
+
+.vr-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ugc-item {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  /* background-color: #f8f9fa; Màu nền dự phòng */
+}
+
+.ugc-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.ugc-img:hover {
+  transform: scale(1.05);
+}
+
+.ugc-item.steps {
+  border: 1px solid #dee2e6;
+  font-weight: bold;
+  cursor: pointer;
+}
+.subscribe-wrapper {
+  background-color: #efdbb0;
+  max-width: 500px;
+  border: 1px solid #e0d5c0;
+}
+
+.btn-dark {
+  background-color: #96745a;
+  border: none;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.btn-dark:hover {
+  background-color: #705b4f;
+}
+
+.footer {
+  background-color: #fdf9f7;
+}
+.footer h6 {
+  color: #7c6858;
+  font-size: 13px;
+}
+.dropdown-item.fw-bold,
+.dropdown-item.active,
+.account-dropdown-menu .dropdown-item.active {
+  color: #3d332a;
+  background-color: transparent;
+  font-weight: bold;
+}
