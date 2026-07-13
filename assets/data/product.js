@@ -668,11 +668,11 @@ window.KOOLEYES_PRODUCTS = [
     images: [
       {
         color: "Blue",
-        src: "../assets/images/Kooleyes Pocket/Milky Way - 1.465.000đ/Milky_Way_(Blue).jpg",
+        src: "../assets/images/Kooleyes Pocket/Milky Way - 1,465,000đ/Milky Way_(Blue).jpg",
       },
       {
         color: "Pink",
-        src: "../assets/images/Kooleyes Pocket/Milky Way - 1.465.000đ/Milky_Way_(Pink).jpg",
+        src: "../assets/images/Kooleyes Pocket/Milky Way - 1,465,000đ/Milky Way_(Pink).jpg",
       },
     ],
   },

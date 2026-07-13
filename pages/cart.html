@@ -166,6 +166,29 @@
       .cart-empty {
         display: none;
       }
+      .qty-input::-webkit-outer-spin-button,
+.qty-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.qty-input {
+  -moz-appearance: textfield; 
+  
+  width: 50px;
+  height: 38px;
+  text-align: center;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background-color: #fff;
+  color: var(--dark);
+  font-family: Georgia, serif;
+}
+
+.qty-input:focus {
+  outline: none;
+  border-color: var(--accent-dark);
+}
     </style>
   </head>
 
@@ -329,7 +352,7 @@
       <img src="../assets/images/contact-banner.png" alt="Kooleyes glasses" />
       <div class="cart-hero-overlay">
         <div class="cart-breadcrumb">
-          <a href="lookbook.html">Home</a>
+          <a href="homepage.html">Products</a>
           <i class="bi bi-chevron-right"></i>
           <span class="current">Cart</span>
         </div>
@@ -351,79 +374,9 @@
             </div>
           </div>
 
-          <div class="cart-items-wrap" id="cartItemsWrap">
-            <!-- CART ITEM 1 -->
-            <div class="cart-row" data-price="803600">
-              <div class="row align-items-center g-3">
-                <div class="col-md-5 d-flex align-items-center gap-3">
-                  <img
-                    src="../assets/images/Sản phẩm lẻ/Origami - 803,600đ/Origami_(Gold).jpg"
-                    class="cart-item-img"
-                    alt="Origami"
-                  />
-                  <div>
-                    <div class="fw-bold">Origami</div>
-                    <div class="text-muted small">Gold · Metal frame</div>
-                  </div>
-                </div>
-                <div class="col-md-2 text-md-center text-muted">
-                  803.600 VND
-                </div>
-                <div class="col-md-2 text-md-center">
-                  <input
-                    type="number"
-                    class="qty-input cart-qty"
-                    value="1"
-                    min="1"
-                  />
-                </div>
-                <div class="col-md-2 text-md-center fw-bold cart-subtotal">
-                  803.600 VND
-                </div>
-                <div class="col-md-1 text-md-end">
-                  <button class="cart-remove-btn" title="Remove">
-                    <i class="bi bi-trash"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- CART ITEM 2 -->
-            <div class="cart-row" data-price="858000">
-              <div class="row align-items-center g-3">
-                <div class="col-md-5 d-flex align-items-center gap-3">
-                  <img
-                    src="../assets/images/Sản phẩm lẻ/Saga - 858,000đ/Saga_(Clear).jpg"
-                    class="cart-item-img"
-                    alt="Saga"
-                  />
-                  <div>
-                    <div class="fw-bold">Saga</div>
-                    <div class="text-muted small">Clear · Metal frame</div>
-                  </div>
-                </div>
-                <div class="col-md-2 text-md-center text-muted">
-                  858.000 VND
-                </div>
-                <div class="col-md-2 text-md-center">
-                  <input
-                    type="number"
-                    class="qty-input cart-qty"
-                    value="1"
-                    min="1"
-                  />
-                </div>
-                <div class="col-md-2 text-md-center fw-bold cart-subtotal">
-                  858.000 VND
-                </div>
-                <div class="col-md-1 text-md-end">
-                  <button class="cart-remove-btn" title="Remove">
-                    <i class="bi bi-trash"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <div class="cart-items-wrap" id="cartItemsWrap"></div>
+          
+            
 
           <!-- EMPTY STATE -->
           <div class="cart-empty text-center py-5" id="cartEmpty">
@@ -574,55 +527,91 @@
       </div>
     </footer>
 
-    <script>
-      function formatVND(number) {
-        return number.toLocaleString("vi-VN") + " VND";
-      }
-
-      function recalcCart() {
-        let subtotal = 0;
-
-        document.querySelectorAll(".cart-row").forEach((row) => {
-          const price = parseInt(row.dataset.price, 10);
-          const qtyInput = row.querySelector(".cart-qty");
-          const qty = Math.max(1, parseInt(qtyInput.value, 10) || 1);
-          const rowSubtotal = price * qty;
-
-          row.querySelector(".cart-subtotal").textContent =
-            formatVND(rowSubtotal);
-          subtotal += rowSubtotal;
-        });
-
-        document.getElementById("cartSubtotal").textContent =
-          formatVND(subtotal);
-        document.getElementById("cartTotal").textContent = formatVND(subtotal);
-
-        checkEmpty();
-      }
-
-      function checkEmpty() {
-        const wrap = document.getElementById("cartItemsWrap");
-        const empty = document.getElementById("cartEmpty");
-        if (wrap.children.length === 0) {
-          wrap.style.display = "none";
-          empty.style.display = "block";
-        }
-      }
-
-      document.querySelectorAll(".cart-qty").forEach((input) => {
-        input.addEventListener("input", recalcCart);
-      });
-
-      document.querySelectorAll(".cart-remove-btn").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          btn.closest(".cart-row").remove();
-          recalcCart();
-        });
-      });
-
-      recalcCart();
-    </script>
-
+    <script src="../assets/data/product.js"></script>
+    <script src="../assets/js/site-cart.js"></script>
     <script src="../assets/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+  function renderCartPage() {
+    const cart = getCart(); 
+    const cartItemsWrap = document.getElementById("cartItemsWrap");
+    const subtotalEl = document.getElementById("cartSubtotal");
+    const totalEl = document.getElementById("cartTotal");
+    const cartEmpty = document.getElementById("cartEmpty");
+
+    if (!cartItemsWrap) return;
+
+    if (cart.length === 0) {
+      cartItemsWrap.innerHTML = "";
+      if (cartEmpty) cartEmpty.style.display = "block";
+      if (subtotalEl) subtotalEl.textContent = "0 VND";
+      if (totalEl) totalEl.textContent = "0 VND";
+      return;
+    }
+
+    if (cartEmpty) cartEmpty.style.display = "none";
+    let subtotal = 0;
+
+    cartItemsWrap.innerHTML = cart.map((item, index) => {
+      const price = getPriceNumber(item.price);
+      const rowTotal = price * item.quantity;
+      subtotal += rowTotal;
+      
+      return `
+        <div class="cart-row">
+          <div class="row align-items-center g-3">
+            <div class="col-md-5 d-flex align-items-center gap-3">
+              <img src="${item.image}" class="cart-item-img" alt="${item.name}" />
+              <div>
+                <div class="fw-bold">${item.name}</div>
+                <div class="text-muted small">${item.color || "Default"}</div>
+              </div>
+            </div>
+            <div class="col-md-2 text-md-center text-muted">${formatPrice(price)}</div>
+            <div class="col-md-2 d-flex justify-content-center">
+            <div class="input-group qty-box" style="width: 100px;">
+              <button class="btn btn-outline-secondary btn-sm" onclick="changeQty(${index}, -1)">-</button>
+              <input type="text" class="form-control form-control-sm text-center" value="${item.quantity}" readonly>
+              <button class="btn btn-outline-secondary btn-sm" onclick="changeQty(${index}, 1)">+</button>
+            </div>
+          </div>
+
+            <div class="col-md-2 text-md-center fw-bold cart-subtotal">${formatPrice(rowTotal)}</div>
+            <div class="col-md-1 text-md-end">
+              <button class="cart-remove-btn" onclick="deleteItem(${index})"><i class="bi bi-trash"></i></button>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    if (subtotalEl) subtotalEl.textContent = formatPrice(subtotal);
+    if (totalEl) totalEl.textContent = formatPrice(subtotal);
+  }
+
+  function updateCartQty(index, newQty) {
+    let cart = getCart();
+    cart[index].quantity = parseInt(newQty);
+    saveCart(cart);
+    renderCartPage();
+    if (typeof renderCartDrawer === 'function') renderCartDrawer();
+  }
+
+  function deleteItem(index) {
+    removeFromCart(index);
+    renderCartPage();
+    if (typeof renderCartDrawer === 'function') renderCartDrawer();
+  }
+  function changeQty(index, delta) {
+  let cart = getCart();
+  let newQty = parseInt(cart[index].quantity) + delta;
+  if (newQty < 1) newQty = 1; // Không cho phép nhỏ hơn 1
+  cart[index].quantity = newQty;
+  saveCart(cart);
+  renderCartPage();
+  if (typeof renderCartDrawer === 'function') renderCartDrawer();
+}
+  document.addEventListener("DOMContentLoaded", renderCartPage);
+</script>
   </body>
 </html>

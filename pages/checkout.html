@@ -299,48 +299,29 @@
       </div>
 
       <div class="col-lg-5 ps-lg-4">
-        <h4 class="checkout-heading">Order Summary</h4>
+          <h4 class="checkout-heading">Order Summary</h4>
+          
+          <div id="checkoutItemsList"></div>
+          <h4 class="checkout-heading mt-5">Available Voucher</h4>
+          
+          <div class="d-flex gap-2 mb-4">
+            <input type="text" class="form-control" placeholder="Discount Code" />
+            <button class="btn btn-apply px-4">Apply</button>
+          </div>
 
-        <div class="d-flex justify-content-between align-items-center mb-5">
-          <div class="d-flex align-items-center gap-3">
-            <img src="../assets/images/Sản phẩm lẻ/Origami - 803,600đ/Origami_(Gold).jpg" alt=""
-              class="summary-product-img" />
-            <div>
-              <h6 class="fw-bold mb-1" style="font-family: inherit">
-                Origami
-              </h6>
-              <small class="text-muted">x1 Gold</small>
+          <div class="order-summary-box border-top pt-3">
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-dark small fw-medium">Subtotal</span>
+              <span id="cartSubtotal" class="text-dark small fw-bold">0 VND</span>
             </div>
-          </div>
-          <span class="text-red">804.000VND</span>
-        </div>
-
-        <h4 class="checkout-heading mt-5">Available Voucher</h4>
-        <div class="d-flex gap-2 mb-4">
-          <input type="text" class="form-control" placeholder="Discount Code" />
-          <button class="btn btn-apply px-4">Apply</button>
-        </div>
-
-        <div class="order-summary-box border-top pt-3">
-          <div class="d-flex justify-content-between mb-2">
-            <span class="text-dark small fw-medium">Subtotal</span>
-            <span class="text-dark small fw-bold">804.000VND</span>
-          </div>
-          <div class="d-flex justify-content-between mb-2">
-            <span class="text-dark small fw-medium">Shipping</span>
-            <span class="text-dark small fw-bold">30.000 VND</span>
-          </div>
-          <div class="d-flex justify-content-between mb-2">
-            <span class="text-dark small fw-medium">Member Discount</span>
-            <span class="text-dark small">0đ</span>
-          </div>
-          <div class="d-flex justify-content-between border-bottom pb-3 mb-3">
-            <span class="text-dark small fw-medium">Coupon Discount</span>
-            <span class="text-dark small">0đ</span>
-          </div>
-          <div class="d-flex justify-content-between mt-2">
-            <span class="text-muted fw-bold">Total</span>
-            <span class="text-red fs-5"><b>834.000 VND</b></span>
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-dark small fw-medium">Shipping</span>
+              <span class="text-dark small fw-bold">30.000 VND</span>
+            </div>
+            <div class="d-flex justify-content-between mt-2">
+              <span class="text-muted fw-bold">Total</span>
+              <span class="text-red fs-5" id="cartTotal"><b>0 VND</b></span>
+            </div>
           </div>
         </div>
       </div>
@@ -426,45 +407,51 @@
     </div>
   </footer>
 
+  <script src="../assets/data/product.js"></script>
+  <script src="../assets/js/site-cart.js"></script>
+  <script src="../assets/js/bootstrap.bundle.min.js"></script>
   <script>
   document.addEventListener("DOMContentLoaded", function () {
-    // Lấy tất cả các ô input bắt buộc và nút Complete Order
+    const cart = getCart(); 
+    const summaryContainer = document.querySelector(".col-lg-5");
+    const subtotalEl = document.getElementById("cartSubtotal");
+    const totalEl = document.getElementById("cartTotal");
+    
+    let subtotal = 0;
+    const itemsHtml = cart.map(item => {
+      const price = getPriceNumber(item.price);
+      subtotal += price * item.quantity;
+      return `
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div class="d-flex align-items-center gap-3">
+            <img src="${item.image}" alt="${item.name}" class="summary-product-img" />
+            <div>
+              <h6 class="fw-bold mb-1" style="font-family: inherit">${item.name}</h6>
+              <small class="text-muted">x${item.quantity} · ${item.color || "Default"}</small>
+            </div>
+          </div>
+          <span class="text-red">${formatPrice(price * item.quantity)}</span>
+        </div>
+      `;
+    }).join('');
+
+    document.querySelector(".col-lg-5 h4.checkout-heading").insertAdjacentHTML('afterend', itemsHtml);
+
+    if (subtotalEl) subtotalEl.textContent = formatPrice(subtotal);
+    if (totalEl) totalEl.textContent = formatPrice(subtotal + 30000); // Giả sử phí ship 30k
+
     const requiredInputs = document.querySelectorAll(".required-field");
     const completeOrderBtn = document.getElementById("completeOrderBtn");
 
     function validateForm() {
-      let isFormValid = true;
-
-      // Duyệt qua từng ô, nếu có bất kỳ ô nào rỗng hoặc chỉ toàn dấu cách thì đánh dấu là false
-      requiredInputs.forEach(function (input) {
-        if (input.value.trim() === "") {
-          isFormValid = false;
-        }
-      });
-
-      // Nếu tất cả đều có dữ liệu (isFormValid = true) -> mở khóa nút
-      if (isFormValid) {
-        completeOrderBtn.disabled = false;
-      } else {
-        // Ngược lại, nếu có 1 ô trống -> khóa nút
-        completeOrderBtn.disabled = true;
-      }
+      completeOrderBtn.disabled = !Array.from(requiredInputs).every(input => input.value.trim() !== "");
     }
 
-    // Gắn sự kiện "input" cho các ô: mỗi khi người dùng gõ 1 phím, hàm validateForm sẽ chạy lại
-    requiredInputs.forEach(function (input) {
-      input.addEventListener("input", validateForm);
-    });
-
-    // Chạy kiểm tra ngay khi trang vừa tải xong để đảm bảo nút bị khóa ở trạng thái mặc định (vì các ô đang trống)
-    validateForm();
-
-    // Xử lý khi bấm nút Complete Order
-    completeOrderBtn.addEventListener("click", function (e) {
-      e.preventDefault();
-      if (!this.disabled) {
-        window.location.href = "order_success.html";
-      }
+    requiredInputs.forEach(input => input.addEventListener("input", validateForm));
+    
+    completeOrderBtn.addEventListener("click", function () {
+       localStorage.removeItem("kooleyesCart");
+       window.location.href = "order_success.html";
     });
   });
 </script>

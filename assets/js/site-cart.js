@@ -127,3 +127,14 @@ document.addEventListener("DOMContentLoaded", function () {
   if (closeBtn) closeBtn.addEventListener("click", closeCartDrawer);
   if (overlay) overlay.addEventListener("click", closeCartDrawer);
 });
+function triggerCartUpdate() {
+  window.dispatchEvent(new Event("cartUpdated"));
+}
+
+// Trong hàm addToCart và removeFromCart (của file site-cart.js cũ),
+// hãy thêm dòng này sau lệnh saveCart():
+function addToCart(product, quantity = 1, color = null) {
+  // ... logic cũ của bạn ...
+  saveCart(cart);
+  triggerCartUpdate(); // <--- Thêm dòng này
+}

@@ -587,82 +587,105 @@
 <script src="../assets/js/bootstrap.bundle.min.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    const products = window.KOOLEYES_PRODUCTS || [];
-    // Sửa lại thành getElementById("productGrid") cho khớp với HTML
+    const allProducts = window.KOOLEYES_PRODUCTS || [];
     const productGrid = document.getElementById("productGrid"); 
+    const sortSelect = document.getElementById("sortSelect");
     
-    if (!productGrid || products.length === 0) return;
+    if (!productGrid || allProducts.length === 0) return;
+
+    let currentProducts = [...allProducts];
     
-    // Ở trang Shop, chúng ta hiển thị toàn bộ sản phẩm thay vì chỉ cắt 8 cái đầu tiên
-    productGrid.innerHTML = products.map(product => {
-      let badgeHtml = '';
-      if (product.badge) {
-        const isSale = product.badge.includes('%');
-        const badgeClass = isSale ? 'badge-sale' : 'badge-new';
-        badgeHtml = `<span class="badge ${badgeClass} position-absolute top-0 end-0 m-2 rounded-pill">${product.badge}</span>`;
-      }
+    function renderProducts(productsToRender) {
+      productGrid.innerHTML = productsToRender.map(product => {
+        let badgeHtml = '';
+        if (product.badge) {
+          const isSale = product.badge.includes('%');
+          const badgeClass = isSale ? 'badge-sale' : 'badge-new';
+          badgeHtml = `<span class="badge ${badgeClass} position-absolute top-0 end-0 m-2 rounded-pill">${product.badge}</span>`;
+        }
 
-      const oldPriceHtml = product.oldPrice ? `<span class="old-price ms-2">${product.oldPrice}</span>` : '';
-      const imgSrc = product.images[0].src;
+        const oldPriceHtml = product.oldPrice ? `<span class="old-price ms-2">${product.oldPrice}</span>` : '';
+        const imgSrc = product.images[0].src;
 
-      return `
-        <div class="product-card-shop">
-          <div class="card product-card border-0 h-100">
-            
-            <div class="product-img product-img-dark mb-3" onclick="this.classList.toggle('clicked')">
-              ${badgeHtml}
-              <img src="${imgSrc}" alt="${product.name}">
+        return `
+          <div class="product-card-shop">
+            <div class="card product-card border-0 h-100">
               
-              <div class="overlay">
-                <button class="btn btn-light fw-bold w-75 mb-2 rounded-0"
-                  type="button"
-                  onclick="event.stopPropagation(); addToCart({
-                    id: '${product.id}', 
-                    name: '${product.name}', 
-                    priceValue: ${product.priceValue}, 
-                    image: '${imgSrc}'
-                  }, 1)">
-                  Add to cart
-                </button>
+              <div class="product-img product-img-dark mb-3" onclick="this.classList.toggle('clicked')">
+                ${badgeHtml}
+                <img src="${imgSrc}" alt="${product.name}">
                 
-                <div class="overlay-links text-white small d-flex flex-row gap-2 justify-content-center mt-2 w-100 px-2">
-                  <span 
-                    onclick="event.stopPropagation(); navigator.clipboard.writeText(window.location.origin + '/product-detail.html?id=${product.id}').then(() => alert('Đã lưu đường dẫn sản phẩm vào bộ nhớ tạm!'));" 
-                    role="button" 
-                    class="d-flex align-items-center gap-1"
-                  >
-                    <i class="bi bi-share"></i> Share
-                  </span>
+                <div class="overlay">
+                  <button class="btn btn-light fw-bold w-75 mb-2 rounded-0"
+                    type="button"
+                    onclick="event.stopPropagation(); addToCart({
+                      id: '${product.id}', 
+                      name: '${product.name}', 
+                      priceValue: ${product.priceValue}, 
+                      image: '${imgSrc}'
+                    }, 1)">
+                    Add to cart
+                  </button>
                   
-                  <a 
-                      href="virtual-try-on.html?id=${product.id}" 
-                      onclick="event.stopPropagation();" 
-                      class="text-white text-decoration-none d-flex align-items-center gap-1"
+                  <div class="overlay-links text-white small d-flex flex-row gap-2 justify-content-center mt-2 w-100 px-2">
+                    <span 
+                      onclick="event.stopPropagation(); navigator.clipboard.writeText(window.location.origin + '/product-detail.html?id=${product.id}').then(() => alert('Đã lưu đường dẫn sản phẩm vào bộ nhớ tạm!'));" 
+                      role="button" 
+                      class="d-flex align-items-center gap-1"
                     >
-                      <i class="bi bi-camera"></i> Try Virtual
-                    </a>                    
-                  
-                  <a 
-                        href="wishlist.html" 
+                      <i class="bi bi-share"></i> Share
+                    </span>
+                    
+                    <a 
+                        href="virtual-try-on.html?id=${product.id}" 
                         onclick="event.stopPropagation();" 
                         class="text-white text-decoration-none d-flex align-items-center gap-1"
                       >
-                        <i class="bi bi-heart"></i> Wishlist
-                      </a>                
-                 </div>
+                        <i class="bi bi-camera"></i> Try Virtual
+                      </a>                    
+                    
+                    <a 
+                          href="wishlist.html" 
+                          onclick="event.stopPropagation();" 
+                          class="text-white text-decoration-none d-flex align-items-center gap-1"
+                        >
+                          <i class="bi bi-heart"></i> Wishlist
+                        </a>                
+                   </div>
+                </div>
               </div>
-            </div>
 
-            <a href="product-detail.html?id=${product.id}" class="text-decoration-none text-dark d-flex flex-column flex-grow-1">
-              <h6 class="fw-bold mb-1">${product.name}</h6>
-              <p class="text-muted small mb-1">${product.subtitle}</p>
-              <p class="fw-bold mb-0 mt-auto">${product.price} ${oldPriceHtml}</p>
-            </a>
-            
+              <a href="product-detail.html?id=${product.id}" class="text-decoration-none text-dark d-flex flex-column flex-grow-1">
+                <h6 class="fw-bold mb-1">${product.name}</h6>
+                <p class="text-muted small mb-1">${product.subtitle}</p>
+                <p class="fw-bold mb-0 mt-auto">${product.price} ${oldPriceHtml}</p>
+              </a>
+              
+            </div>
           </div>
-        </div>
-      `;
-    }).join('');
+        `;
+      }).join('');
+    }
+
+    function handleSort() {
+      const sortValue = sortSelect.value;
+
+      if (sortValue === "low") {
+        currentProducts.sort((a, b) => (a.priceValue || 0) - (b.priceValue || 0));
+      } else if (sortValue === "high") {
+        currentProducts.sort((a, b) => (b.priceValue || 0) - (a.priceValue || 0));
+      } else if (sortValue === "name") {
+        currentProducts.sort((a, b) => a.name.localeCompare(b.name));
+      }
+
+      renderProducts(currentProducts);
+    }
+
+    if (sortSelect) {
+      sortSelect.addEventListener("change", handleSort);
+    }
+
+    handleSort();
   });
 </script>
 
