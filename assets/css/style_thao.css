@@ -18,9 +18,8 @@ h3 {
   font-family: Georgia, serif;
 }
 
-/* ============================
-   TOPBAR
-============================ */
+/* TOPBAR */
+
 .topbar {
   background: var(--bg);
   font-size: 12px;
@@ -40,9 +39,7 @@ h3 {
   text-decoration: underline;
 }
 
-/* ============================
-   NAVBAR
-============================ */
+/* NAVBAR */
 .navbar {
   min-height: 60px;
   padding-top: 0;
@@ -63,9 +60,7 @@ h3 {
   width: 100px;
 }
 
-/* ============================
-   HERO / CAROUSEL
-============================ */
+/* CAROUSEL */
 .carousel-item img {
   width: 100%;
   height: 600px;
@@ -91,9 +86,7 @@ h3 {
   object-position: center;
 }
 
-/* ============================
-   PRODUCT CARD
-============================ */
+/* PRODUCT CARD */
 .product-img img {
   width: 100%;
   height: 100%;
@@ -198,9 +191,7 @@ h3 {
   cursor: pointer;
 }
 
-/* ============================
-   FOOTER
-============================ */
+/* FOOTER */
 .subscribe-wrapper {
   background-color: #efdbb0;
   max-width: 500px;
@@ -226,9 +217,7 @@ h3 {
   text-decoration: none;
 }
 
-/* ============================
-   LOGIN / REGISTER
-============================ */
+/* LOGIN / REGISTER */
 .auth-section {
   min-height: 750px;
   display: flex;
@@ -332,9 +321,7 @@ h3 {
   border-color: var(--accent-dark);
 }
 
-/* ============================
-   FORGET PASSWORD
-============================ */
+/* FORGET PASSWORD */
 .auth-card-simple {
   padding: 8px 0;
 }
@@ -366,9 +353,7 @@ h3 {
   text-decoration: underline;
 }
 
-/* ============================
-   PASSWORD RECOVERY (OTP)
-============================ */
+/* PASSWORD RECOVERY (OTP) */
 .otp-input {
   height: 50px;
   width: 45px;
@@ -384,9 +369,7 @@ h3 {
   box-shadow: none;
 }
 
-/* ============================
-   ORDER HISTORY & REVIEW
-============================ */
+/* ORDER HISTORY & REVIEW */
 .account-hero {
   background: var(--bg);
 }
@@ -512,9 +495,7 @@ h3 {
   padding: 16px;
 }
 
-/* ============================
-   DROPDOWN MENU (ĐỒNG BỘ USER & COLLECTIONS)
-============================ */
+/* DROPDOWN MENU (ĐỒNG BỘ USER & COLLECTIONS) */
 .account-toggle {
   color: var(--accent-dark);
 }

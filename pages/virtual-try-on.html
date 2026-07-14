@@ -1,785 +1,869 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Virtual Try-On</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kooleyes - Virtual Try-On</title>
     <link rel="stylesheet" href="../assets/css/bootstrap-icons.css" />
     <link rel="stylesheet" href="../assets/css/bootstrap.css" />
-    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/style_thao.css" />
 
     <style>
-        :root {
-            --tryon-ink: #2c3643;
-            --tryon-brown: #7c6858;
-            --tryon-hover: #efdbb0;
-        }
+      :root {
+        --tryon-ink: #2c3643;
+        --tryon-brown: #7c6858;
+        --tryon-hover: #efdbb0;
+      }
 
-        .tryon-title {
-            font-family: Georgia, serif;
-            font-size: 1.9rem;
-            letter-spacing: 1px;
-            color: var(--tryon-ink);
-            text-align: center;
-            margin-bottom: 30px;
-        }
+      .tryon-title {
+        font-family: Georgia, serif;
+        font-size: 1.9rem;
+        letter-spacing: 1px;
+        color: var(--tryon-ink);
+        text-align: center;
+        margin-bottom: 30px;
+      }
 
-        .tryon-wrapper {
-            display: flex;
-            align-items: stretch;
-            gap: 16px;
-            max-width: 950px;
-            margin: 0 auto;
-        }
+      .tryon-wrapper {
+        display: flex;
+        align-items: stretch;
+        gap: 16px;
+        max-width: 950px;
+        margin: 0 auto;
+      }
 
-        .tryon-toolbar {
-            background-color: #ffffff;
-            border-radius: 50px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 26px;
-            padding: 22px 14px;
-            flex-shrink: 0;
-        }
+      .tryon-toolbar {
+        background-color: #ffffff;
+        border-radius: 50px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 26px;
+        padding: 22px 14px;
+        flex-shrink: 0;
+        z-index: 10;
+      }
 
-        .tryon-toolbar i {
-            font-size: 1.15rem;
-            color: var(--tryon-brown);
-            cursor: pointer;
-            transition: 0.2s;
-        }
+      .tryon-toolbar i {
+        font-size: 1.15rem;
+        color: var(--tryon-brown);
+        cursor: pointer;
+        transition: 0.2s;
+      }
 
-        .tryon-toolbar i:hover {
-            color: var(--accent-dark);
-        }
+      .tryon-toolbar i:hover {
+        color: var(--accent-dark);
+      }
 
-        .tryon-stage {
-            position: relative;
-            flex: 1;
-            background-color: #d8d5d1;
-            border-radius: 18px;
-            overflow: hidden;
-            aspect-ratio: 16 / 9;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+      .tryon-stage {
+        position: relative;
+        flex: 1;
+        background-color: #d8d5d1;
+        border-radius: 18px;
+        overflow: hidden;
+        aspect-ratio: 16 / 9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-        .tryon-stage video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: none;
-            transform: scaleX(-1);
-        }
+      .tryon-stage video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: none;
+        transform: scaleX(-1);
+      }
 
-        .tryon-stage.camera-on video {
-            display: block;
-        }
+      .tryon-stage.camera-on video {
+        display: block;
+      }
 
-        .tryon-placeholder {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            color: #9a948d;
-        }
+      /* Lớp Canvas AI vẽ lưới lên mặt */
+      #overlayCanvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 2;
+      }
 
-        .tryon-placeholder i {
-            font-size: 2.4rem;
-        }
+      .tryon-stage.camera-on #overlayCanvas {
+        transform: scaleX(-1);
+        object-fit: cover;
+      }
 
-        .tryon-stage:is(.camera-on, .photo-on, .captured-on) .tryon-placeholder {
-            display: none;
-        }
+      .tryon-stage.photo-on #overlayCanvas {
+        transform: none;
+        object-fit: contain;
+      }
 
-        .tryon-badge {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            padding: 5px 12px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            color: var(--tryon-ink);
-            display: none;
-            align-items: center;
-            gap: 6px;
-            z-index: 3;
-        }
+      .tryon-placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        color: #9a948d;
+      }
 
-        .tryon-stage.camera-on .live-badge,
-        .tryon-stage.photo-on .photo-badge,
-        .tryon-stage.captured-on .captured-badge {
-            display: flex;
-        }
+      .tryon-placeholder i {
+        font-size: 2.4rem;
+      }
 
-        .live-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #e53935;
-            border-radius: 50%;
-            display: inline-block;
-        }
+      .tryon-stage:is(.camera-on, .photo-on, .captured-on) .tryon-placeholder {
+        display: none;
+      }
 
-        .tryon-photo {
-            display: none;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+      .tryon-badge {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 20px;
+        padding: 5px 12px;
+        font-size: 0.75rem;
+        font-weight: bold;
+        color: var(--tryon-ink);
+        display: none;
+        align-items: center;
+        gap: 6px;
+        z-index: 3;
+      }
 
-        .tryon-stage.photo-on .uploaded-photo,
-        .tryon-stage.captured-on .captured-photo {
-            display: block;
-        }
+      .tryon-stage.camera-on .live-badge,
+      .tryon-stage.photo-on .photo-badge,
+      .tryon-stage.captured-on .captured-badge {
+        display: flex;
+      }
 
-        .upload-btn {
-            position: absolute;
-            bottom: 15px;
-            left: 15px;
-            width: 42px;
-            height: 42px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            color: var(--tryon-brown);
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-            transition: 0.2s;
-            z-index: 5;
-        }
+      .live-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #e53935;
+        border-radius: 50%;
+        display: inline-block;
+        animation: blink 1.4s infinite;
+      }
 
-        .upload-btn:hover {
-            background-color: var(--tryon-hover);
+      @keyframes blink {
+        50% {
+          opacity: 0.2;
         }
+      }
 
-        .coming-soon-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(20, 20, 20, 0.45);
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            color: #fff;
-            text-align: center;
-            z-index: 4;
-        }
+      .tryon-photo {
+        display: none;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
 
-        .tryon-stage:is(.camera-on, .photo-on, .captured-on) .coming-soon-overlay {
-            display: flex;
-        }
+      .tryon-stage.photo-on .uploaded-photo,
+      .tryon-stage.captured-on .captured-photo {
+        display: block;
+      }
 
-        .coming-soon-overlay h4 {
-            font-family: Georgia, serif;
-            font-weight: bold;
-            letter-spacing: 1px;
-            margin: 0;
-        }
+      .upload-btn {
+        position: absolute;
+        bottom: 15px;
+        left: 15px;
+        width: 42px;
+        height: 42px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        color: var(--tryon-brown);
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        transition: 0.2s;
+        z-index: 5;
+      }
 
-        .coming-soon-overlay p {
-            font-size: 0.8rem;
-            max-width: 260px;
-            margin: 0;
-            opacity: 0.9;
-        }
+      .upload-btn:hover {
+        background-color: var(--tryon-hover);
+      }
 
-        .face-panel {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 210px;
-            background-color: rgba(255, 255, 255, 0.97);
-            border-radius: 14px;
-            padding: 16px;
-            color: var(--tryon-ink);
-            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
-            z-index: 3;
-        }
+      .face-panel {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        width: 210px;
+        background-color: rgba(255, 255, 255, 0.97);
+        border-radius: 14px;
+        padding: 16px;
+        color: var(--tryon-ink);
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+        z-index: 3;
+      }
 
-        .face-panel-header {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            color: var(--tryon-ink);
-            margin-bottom: 3px;
-        }
+      .face-panel-header {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.85rem;
+        font-weight: bold;
+        color: var(--tryon-ink);
+        margin-bottom: 3px;
+      }
 
-        .face-panel-header i {
-            color: var(--accent-dark);
-        }
+      .face-panel-header i {
+        color: var(--accent-dark);
+      }
 
-        .face-panel .sub {
-            font-size: 0.7rem;
-            color: var(--tryon-brown);
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
+      .face-detect-list {
+        font-size: 0.72rem;
+        color: #4a4a4a;
+        margin-bottom: 10px;
+        line-height: 1.6;
+      }
 
-        .face-detect-list {
-            font-size: 0.72rem;
-            color: #4a4a4a;
-            margin-bottom: 10px;
-            line-height: 1.6;
-        }
+      .face-panel hr {
+        border-color: #e5ddd2;
+        margin: 10px 0;
+        opacity: 1;
+      }
 
-        .face-panel hr {
-            border-color: #e5ddd2;
-            margin: 10px 0;
-            opacity: 1;
-        }
+      .rec-face-title {
+        font-size: 0.78rem;
+        font-weight: bold;
+        color: var(--tryon-ink);
+        margin-bottom: 10px;
+      }
 
-        .rec-face-title {
-            font-size: 0.78rem;
-            font-weight: bold;
-            color: var(--tryon-ink);
-            margin-bottom: 10px;
-        }
+      .rec-face-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background-color: #f7f2ea;
+        border-radius: 10px;
+        padding: 8px;
+        margin-bottom: 8px;
+        transition: 0.2s;
+      }
 
-        .rec-face-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background-color: #f7f2ea;
-            border-radius: 10px;
-            padding: 8px;
-            margin-bottom: 8px;
-            transition: 0.2s;
-        }
+      .rec-face-item:hover {
+        background-color: var(--tryon-hover);
+      }
 
-        .rec-face-item:last-child {
-            margin-bottom: 0;
-        }
+      .rec-face-item img {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+        background-color: #ffffff;
+        border: 1px solid #ece3d6;
+        border-radius: 8px;
+        flex-shrink: 0;
+      }
 
-        .rec-face-item:hover {
-            background-color: var(--tryon-hover);
-        }
+      .rec-face-name {
+        font-size: 0.8rem;
+        font-weight: bold;
+        color: var(--tryon-ink);
+        margin-bottom: 2px;
+      }
 
-        .rec-face-item img {
-            width: 48px;
-            height: 48px;
-            object-fit: contain;
-            background-color: #ffffff;
-            border: 1px solid #ece3d6;
-            border-radius: 8px;
-            flex-shrink: 0;
-        }
+      .rec-face-match {
+        font-size: 0.7rem;
+        font-weight: bold;
+        color: var(--accent-dark);
+        margin-bottom: 3px;
+      }
 
-        .rec-face-name {
-            font-size: 0.8rem;
-            font-weight: bold;
-            color: var(--tryon-ink);
-            margin-bottom: 2px;
-        }
+      .rec-face-stars {
+        font-size: 0.72rem;
+        color: #d4a94b;
+        letter-spacing: 1px;
+      }
 
-        .rec-face-match {
-            font-size: 0.7rem;
-            font-weight: bold;
-            color: var(--accent-dark);
-            margin-bottom: 3px;
-        }
+      .capture-btn-wrapper {
+        display: flex;
+        justify-content: center;
+        margin-top: 28px;
+        margin-bottom: 10px;
+      }
 
-        .rec-face-stars {
-            font-size: 0.72rem;
-            color: #d4a94b;
-            letter-spacing: 1px;
-        }
+      .capture-btn {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: #fff;
+        border: 2px solid var(--accent-dark);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        color: var(--tryon-brown);
+        cursor: pointer;
+        transition: 0.2s;
+      }
 
-        .capture-btn-wrapper {
-            display: flex;
-            justify-content: center;
-            margin-top: 28px;
-            margin-bottom: 10px;
-        }
+      .capture-btn:hover {
+        background-color: var(--tryon-hover);
+      }
 
-        .capture-btn {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: #fff;
-            border: 2px solid var(--accent-dark);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            color: var(--tryon-brown);
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .capture-btn:hover {
-            background-color: var(--tryon-hover);
-        }
-
-        .camera-error {
-            display: none;
-            max-width: 950px;
-            margin: 14px auto 0;
-        }
+      .camera-error {
+        display: none;
+        max-width: 950px;
+        margin: 14px auto 0;
+      }
     </style>
-</head>
+  </head>
 
-<body style="background-color: #fdf9f6">
-    <div class="topbar py-2 border-bottom d-flex justify-content-between align-items-center px-4">
-        <span class="topbar-msg flex-grow-1 text-center">
-            Free shipping for orders above 499.000 VND - Hotline 1900 123 654
-        </span>
-
-        <div class="dropdown">
-
-            <a href="#" class="topbar-auth d-flex align-items-center gap-1 text-decoration-none"
-                style="cursor:pointer; color:#7c6858;" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-person-circle fs-5"></i>
-                <i class="bi bi-chevron-down" style="font-size:0.75rem;"></i>
-            </a>
-
-            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-
-                <li>
-                    <a class="dropdown-item" href="account_detail.html">
-                        <i class="bi bi-person me-2"></i>
-                        Account Overview
-                    </a>
-                </li>
-
-                <li>
-                    <a class="dropdown-item" href="order_history.html">
-                        <i class="bi bi-clock-history me-2"></i>
-                        Order History
-                    </a>
-                </li>
-
-                <li>
-                    <a class="dropdown-item" href="wishlist.html">
-                        <i class="bi bi-heart me-2"></i>
-                        Wishlist
-                    </a>
-                </li>
-
-                <li>
-                    <a class="dropdown-item" href="tracking_order.html">
-                        <i class="bi bi-truck me-2"></i>
-                        Track Orders
-                    </a>
-                </li>
-
-                <li>
-                    <a class="dropdown-item " href="recommend.html">
-                        <i class="bi bi-stars me-2"></i>
-                        Recommend For You
-                    </a>
-                </li>
-
-
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-
-                <li>
-                    <a class="dropdown-item text-danger" href="login_register.html">
-                        <i class="bi bi-box-arrow-right me-2"></i>
-                        Logout
-                    </a>
-                </li>
-
-            </ul>
-
-        </div>
+  <body style="background-color: #fdf9f6">
+    <!-- TOPBAR -->
+    <div
+      class="topbar py-2 border-bottom d-flex justify-content-between align-items-center px-4"
+    >
+      <span class="topbar-msg flex-grow-1 text-center">
+        Free shipping for orders above 499.000 VND - Hotline 1900 123 654
+      </span>
+      <div class="dropdown">
+        <a
+          href="#"
+          class="topbar-auth d-flex align-items-center gap-1 text-decoration-none"
+          style="cursor: pointer; color: #7c6858"
+          role="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i class="bi bi-person-circle fs-5"></i>
+          <i class="bi bi-chevron-down" style="font-size: 0.75rem"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+          <li>
+            <a class="dropdown-item" href="account_detail.html"
+              ><i class="bi bi-person me-2"></i>Account Overview</a
+            >
+          </li>
+          <li>
+            <a class="dropdown-item" href="order_history.html"
+              ><i class="bi bi-clock-history me-2"></i>Order History</a
+            >
+          </li>
+          <li>
+            <a class="dropdown-item" href="wishlist.html"
+              ><i class="bi bi-heart me-2"></i>Wishlist</a
+            >
+          </li>
+          <li>
+            <a class="dropdown-item" href="tracking_order.html"
+              ><i class="bi bi-truck me-2"></i>Track Orders</a
+            >
+          </li>
+          <li>
+            <a class="dropdown-item" href="recommend.html"
+              ><i class="bi bi-stars me-2"></i>Recommend For You</a
+            >
+          </li>
+          <li><hr class="dropdown-divider" /></li>
+          <li>
+            <a class="dropdown-item text-danger" href="login_register.html"
+              ><i class="bi bi-box-arrow-right me-2"></i>Logout</a
+            >
+          </li>
+        </ul>
+      </div>
     </div>
-    </div>
-    <header class="navbar navbar-expand-lg navbar-light py-2 border-bottom" style="background-color: #fdf9f6">
-        <div class="container-fluid px-4 px-lg-5">
 
-            <a class="navbar-brand" href="lookbook_cus.html">
-                <img src="../assets/images/Logo.png" alt="Kooleyes" style="height: 55px" />
-            </a>
-
-            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
-                data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="mainNav">
-                <ul class="navbar-nav mx-auto gap-lg-4 text-uppercase small">
-                    <li class="nav-item"><a class="nav-link " href="lookbook_cus.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="homepage.html">Products</a></li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Collections
-                        </a>
-                        <ul class="dropdown-menu shadow-sm border-0" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Crystal Collection</a></li>
-                            <li><a class="dropdown-item" href="#">Aero Collection</a></li>
-                            <li><a class="dropdown-item" href="#">Veggie Collection</a></li>
-                            <li><a class="dropdown-item" href="#">Pocket Collection</a></li>
-                            <li><a class="dropdown-item" href="#">Edge Collection</a></li>
-                            <li><a class="dropdown-item" href="#">Retro Collection</a></li>
-                            <li><a class="dropdown-item" href="#">Solar Collection</a></li>
-                            <li><a class="dropdown-item" href="#">Urban Collection</a></li>
-                            <li><a class="dropdown-item" href="#">Cyber Collection</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-                </ul>
-
-                <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
-                    <div class="d-none d-lg-flex align-items-center rounded-pill border px-3 py-1">
-                        <input type="text" class="form-control form-control-sm border-0 bg-transparent shadow-none"
-                            placeholder="Search" />
-                        <i class="bi bi-search"></i>
-                    </div>
-                    <a href="wishlist.html" class="text-dark text-decoration-none">
-                        <i class="bi bi-heart fs-5" role="button"></i>
-                    </a>
-                    <a href="cart.html" class="text-dark text-decoration-none">
-                        <i class="bi bi-cart fs-5" role="button"></i>
-                    </a>
-                </div>
+    <!-- NAVBAR -->
+    <header
+      class="navbar navbar-expand-lg navbar-light py-2 border-bottom"
+      style="background-color: #fdf9f6"
+    >
+      <div class="container-fluid px-4 px-lg-5">
+        <a class="navbar-brand" href="lookbook_cus.html">
+          <img
+            src="../assets/images/Logo.png"
+            alt="Kooleyes"
+            style="height: 55px"
+          />
+        </a>
+        <button
+          class="navbar-toggler border-0 shadow-none"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#mainNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav mx-auto gap-lg-4 text-uppercase small">
+            <li class="nav-item">
+              <a class="nav-link" href="lookbook_cus.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="homepage.html">Products</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                >Collections</a
+              >
+              <ul class="dropdown-menu shadow-sm border-0">
+                <li>
+                  <a class="dropdown-item" href="#">Crystal Collection</a>
+                </li>
+                <li><a class="dropdown-item" href="#">Aero Collection</a></li>
+                <li><a class="dropdown-item" href="#">Veggie Collection</a></li>
+                <li><a class="dropdown-item" href="#">Pocket Collection</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html">Contact</a>
+            </li>
+          </ul>
+          <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+            <div
+              class="d-none d-lg-flex align-items-center rounded-pill border px-3 py-1"
+            >
+              <input
+                type="text"
+                class="form-control form-control-sm border-0 bg-transparent shadow-none"
+                placeholder="Search"
+              />
+              <i class="bi bi-search"></i>
             </div>
+            <a href="wishlist.html" class="text-dark text-decoration-none"
+              ><i class="bi bi-heart fs-5"></i
+            ></a>
+            <a href="cart.html" class="text-dark text-decoration-none"
+              ><i class="bi bi-cart fs-5"></i
+            ></a>
+          </div>
         </div>
+      </div>
     </header>
 
     <main class="container py-5 mt-2 mb-5">
-        <h1 class="tryon-title">VIRTUAL TRY-ON</h1>
+      <h1 class="tryon-title">VIRTUAL TRY-ON</h1>
 
-        <div class="tryon-wrapper">
-            <div class="tryon-toolbar">
-                <i class="bi bi-arrow-counterclockwise" id="resetBtn" title="Reset"></i>
-                <i class="bi bi-box-arrow-up" id="shareBtn" title="Save photo"></i>
-                <a href="wishlist.html" class="text-decoration-none" title="Wishlist">
-                    <i class="bi bi-heart"></i>
-                </a>
-                <a href="cart.html" class="text-decoration-none" title="Cart">
-                    <i class="bi bi-cart"></i>
-                </a>
-            </div>
-
-            <div class="tryon-stage" id="tryonStage">
-                <div class="tryon-badge live-badge"><span class="live-dot"></span> Live Camera</div>
-                <div class="tryon-badge photo-badge"><i class="bi bi-image"></i> Photo Uploaded</div>
-                <div class="tryon-badge captured-badge"><i class="bi bi-camera"></i> Photo Captured</div>
-
-                <video id="tryonVideo" autoplay playsinline muted></video>
-                <img id="uploadedPhoto" class="tryon-photo uploaded-photo" alt="Uploaded photo" />
-                <canvas id="captureCanvas" style="display:none;"></canvas>
-                <img id="capturedPhoto" class="tryon-photo captured-photo" alt="Captured photo" />
-
-                <div class="tryon-placeholder">
-                    <i class="bi bi-camera"></i>
-                    <span>Press the camera button below to start</span>
-                </div>
-
-                <div class="coming-soon-overlay">
-                    <i class="bi bi-hourglass-split" style="font-size:1.8rem;"></i>
-                    <h4>Coming Soon</h4>
-                    <p>Virtual try-on face fitting is under development. Camera preview is working!</p>
-                </div>
-
-                <label class="upload-btn" title="Upload photo from device">
-                    <i class="bi bi-upload"></i>
-                    <input type="file" id="uploadInput" accept="image/*" hidden />
-                </label>
-
-                <div class="face-panel">
-                    <div class="face-panel-header"><i class="bi bi-stars"></i> Recommended For You</div>
-                    <div class="face-detect-list">
-                        Detected Face Shape: Oval<br />
-                        Bridge: Medium<br />
-                        Face Width: Wide
-                    </div>
-                    <hr />
-                    <div class="rec-face-title">Recommended for Your Face</div>
-
-                    <div class="rec-face-item">
-                        <img src="../assets/images/Sản phẩm lẻ/Saga - 858,000đ/Saga_(Clear).jpg" alt="Nini Black"
-                            onerror="this.style.visibility='hidden'">
-                        <div>
-                            <div class="rec-face-name">Saga</div>
-                            <div class="rec-face-match">[95% Match]</div>
-                            <div class="rec-face-stars">★★★★★</div>
-                        </div>
-                    </div>
-
-                    <div class="rec-face-item">
-                        <img src="../assets/images/Kooleyes Veggie/Zest - 885,300đ/Zest_(Black).jpg" alt="Futara Brown"
-                            onerror="this.style.visibility='hidden'">
-                        <div>
-                            <div class="rec-face-name">Zest</div>
-                            <div class="rec-face-match">[90% Match]</div>
-                            <div class="rec-face-stars">★★★★</div>
-                        </div>
-                    </div>
-
-                    <div class="rec-face-item">
-                        <img src="../assets/images/Kooleyes Veggie/Jasmin - 858,800đ/Jasmin_(Purple).jpg"
-                            alt="Aden Clear" onerror="this.style.visibility='hidden'">
-                        <div>
-                            <div class="rec-face-name">Jasim</div>
-                            <div class="rec-face-match">[87% Match]</div>
-                            <div class="rec-face-stars">★★★</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="tryon-wrapper">
+        <div class="tryon-toolbar">
+          <i
+            class="bi bi-arrow-counterclockwise"
+            id="resetBtn"
+            title="Reset"
+          ></i>
+          <i class="bi bi-floppy" id="shareBtn" title="Save photo"></i>
+          <a href="wishlist.html" class="text-decoration-none" title="Wishlist"
+            ><i class="bi bi-heart"></i
+          ></a>
+          <a href="cart.html" class="text-decoration-none" title="Cart"
+            ><i class="bi bi-cart"></i
+          ></a>
         </div>
 
-        <div class="alert alert-warning camera-error" id="cameraError" role="alert"></div>
+        <div class="tryon-stage" id="tryonStage">
+          <div class="tryon-badge live-badge">
+            <span class="live-dot"></span> Live Camera
+          </div>
+          <div class="tryon-badge photo-badge">
+            <i class="bi bi-image"></i> Photo Uploaded
+          </div>
+          <div class="tryon-badge captured-badge">
+            <i class="bi bi-camera"></i> Photo Captured
+          </div>
 
-        <div class="capture-btn-wrapper">
-            <div class="capture-btn" id="captureBtn" title="Open camera">
-                <i class="bi bi-camera-fill" id="captureIcon"></i>
+          <video id="tryonVideo" autoplay playsinline muted></video>
+          <img
+            id="uploadedPhoto"
+            class="tryon-photo uploaded-photo"
+            alt="Uploaded photo"
+          />
+          <canvas id="overlayCanvas"></canvas>
+          <canvas id="captureCanvas" style="display: none"></canvas>
+          <img
+            id="capturedPhoto"
+            class="tryon-photo captured-photo"
+            alt="Captured photo"
+          />
+
+          <div class="tryon-placeholder">
+            <i class="bi bi-camera"></i>
+            <span>Press the camera button below to start</span>
+          </div>
+
+          <label class="upload-btn" title="Upload photo from device">
+            <i class="bi bi-upload"></i>
+            <input type="file" id="uploadInput" accept="image/*" hidden />
+          </label>
+
+          <div class="face-panel">
+            <div class="face-panel-header">
+              <i class="bi bi-stars"></i> Recommended For You
             </div>
+            <div class="face-detect-list" id="faceInfo">
+              Detected Face Shape: <b>—</b><br />
+              Bridge: <b>—</b><br />
+              Face Width: <b>—</b>
+            </div>
+            <hr />
+            <div class="rec-face-title">Recommended for Your Face</div>
+
+            <div class="rec-face-item">
+              <img
+                src="../assets/images/Sản phẩm lẻ/Saga - 858,000đ/Saga_(Clear).jpg"
+                alt="Saga"
+              />
+              <div>
+                <div class="rec-face-name">Saga Clear</div>
+                <div class="rec-face-match">[95% Match]</div>
+                <div class="rec-face-stars">★★★★★</div>
+              </div>
+            </div>
+            <div class="rec-face-item">
+              <img
+                src="../assets/images/Kooleyes Veggie/Zest - 885,300đ/Zest_(Black).jpg"
+                alt="Zest"
+              />
+              <div>
+                <div class="rec-face-name">Zest Black</div>
+                <div class="rec-face-match">[90% Match]</div>
+                <div class="rec-face-stars">★★★★</div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+
+      <div
+        class="alert alert-warning camera-error"
+        id="cameraError"
+        role="alert"
+      ></div>
+
+      <div class="capture-btn-wrapper">
+        <div class="capture-btn" id="captureBtn" title="Open camera">
+          <i class="bi bi-camera-fill" id="captureIcon"></i>
+        </div>
+      </div>
     </main>
 
-    <footer class="footer pt-5 pb-3 border-top">
-        <div class="container">
-            <div class="row mb-5 g-4">
-                <div class="col-lg-4 col-md-12">
-                    <h3 class="d-block mx-auto">
-                        <img src="../assets/images/Logo.png" alt="Kooleyes Logo" class="d-block mx-auto"
-                            style="height: 120px; width: auto" />
-                    </h3>
-                    <p class="fw-bold small mb-4" style="color: #7c6858; text-align: center">
-                        Kool Eyes, Kool Style
-                    </p>
-                    <div class="subscribe-wrapper rounded-pill d-flex align-items-center p-1 mx-auto">
-                        <input type="email" class="form-control border-0 bg-transparent px-3 shadow-none"
-                            placeholder="Enter your e-mail" />
-                        <button class="btn btn-dark rounded-pill px-4" type="button">
-                            Subscribe Now!
-                        </button>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-12">
-                    <h6 class="fw-bold mb-3">KOOLEYES EYEWEAR</h6>
-                    <ul class="list-unstyled text-muted small">
-                        <li class="mb-1">Enterprise Registration No.: 0110449461</li>
-                        <li class="mb-1">first issued on August 25, 2025,</li>
-                        <li class="mb-1">Ho Chi Minh City People's Committee.</li>
-                        <li class="mb-1">669 Do Muoi, Thu Duc City, HCMC, Vietnam</li>
-                    </ul>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-12">
-                    <h6 class="fw-bold mb-3">POLICY</h6>
-                    <ul class="list-unstyled text-muted small">
-                        <li class="mb-1">
-                            <a href="#" class="text-decoration-none text-muted">Return and Exchange Policy</a>
-                        </li>
-                        <li class="mb-1">
-                            <a href="#" class="text-decoration-none text-muted">Privacy Policy</a>
-                        </li>
-                        <li class="mb-1">
-                            <a href="#" class="text-decoration-none text-muted">Warranty Policy</a>
-                        </li>
-                        <li class="mb-1">
-                            <a href="#" class="text-decoration-none text-muted">Shipping Policy</a>
-                        </li>
-                        <li class="mb-1">
-                            <a href="#" class="text-decoration-none text-muted">Payment Policy</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-12">
-                    <h6 class="fw-bold mb-3">SUPPORT</h6>
-                    <ul class="list-unstyled text-muted small">
-                        <li class="mb-1">
-                            <a href="#" class="text-decoration-none text-muted">Store Location</a>
-                        </li>
-                        <li class="mb-1">
-                            <a href="#" class="text-decoration-none text-muted">F.A.Q</a>
-                        </li>
-                        <li class="mb-1">1900 1234</li>
-                        <li class="mb-1">kooleyesxinchao@gmail.com</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="d-flex flex-column flex-md-row justify-content-between border-top pt-4">
-                <p class="text-muted small mb-0">
-                    Copyright 2026 © Kooleyes All Rights Reserved.
-                </p>
-                <div class="d-flex gap-3 mt-3 mt-md-0">
-                    <i class="bi bi-facebook" role="button"></i>
-                    <i class="bi bi-instagram" role="button"></i>
-                    <i class="bi bi-tiktok" role="button"></i>
-                </div>
-            </div>
-        </div>
-    </footer>
-
+    <!-- Import thư viện AI MediaPipe -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"
+      crossorigin="anonymous"
+    ></script>
     <script src="../assets/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        const stage = document.getElementById("tryonStage");
-        const video = document.getElementById("tryonVideo");
-        const captureBtn = document.getElementById("captureBtn");
-        const captureIcon = document.getElementById("captureIcon");
-        const resetBtn = document.getElementById("resetBtn");
-        const cameraError = document.getElementById("cameraError");
-        const uploadInput = document.getElementById("uploadInput");
-        const uploadedPhoto = document.getElementById("uploadedPhoto");
-        const captureCanvas = document.getElementById("captureCanvas");
-        const capturedPhoto = document.getElementById("capturedPhoto");
-        const shareBtn = document.getElementById("shareBtn");
+      const stage = document.getElementById("tryonStage");
+      const video = document.getElementById("tryonVideo");
+      const captureBtn = document.getElementById("captureBtn");
+      const captureIcon = document.getElementById("captureIcon");
+      const resetBtn = document.getElementById("resetBtn");
+      const cameraError = document.getElementById("cameraError");
+      const uploadInput = document.getElementById("uploadInput");
+      const uploadedPhoto = document.getElementById("uploadedPhoto");
+      const captureCanvas = document.getElementById("captureCanvas");
+      const capturedPhoto = document.getElementById("capturedPhoto");
+      const shareBtn = document.getElementById("shareBtn");
 
-        let currentStream = null;
-        let uploadedPhotoUrl = null;
-        let capturedPhotoDataUrl = null;
+      // AI DOM Elements
+      const canvasElement = document.getElementById("overlayCanvas");
+      const canvasCtx = canvasElement.getContext("2d");
+      const faceInfo = document.getElementById("faceInfo");
 
-        async function startCamera() {
-            cameraError.style.display = "none";
-            clearUploadedPhoto();
-            discardCapturedPhoto();
+      let mpCamera = null;
+      let currentStream = null;
+      let uploadedPhotoUrl = null;
+      let capturedPhotoDataUrl = null;
+      let faceDetected = false;
 
-            try {
-                currentStream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: "user" },
-                    audio: false,
-                });
+      // 1. KHỞI TẠO AI FACEMESH
+      const faceMesh = new FaceMesh({
+        locateFile: (file) =>
+          `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`,
+      });
+      faceMesh.setOptions({
+        maxNumFaces: 1,
+        refineLandmarks: true,
+        minDetectionConfidence: 0.5,
+        minTrackingConfidence: 0.5,
+      });
+      faceMesh.onResults(onResults);
 
-                video.srcObject = currentStream;
-                stage.classList.add("camera-on");
-                updateCaptureButton();
-            } catch (err) {
-                cameraError.textContent =
-                    "Unable to access the camera. Please allow camera permission in your browser and try again.";
-                cameraError.style.display = "block";
-            }
+      // 2. XỬ LÝ KẾT QUẢ AI VÀ VẼ LƯỚI
+      function onResults(results) {
+        canvasElement.width = stage.classList.contains("photo-on")
+          ? uploadedPhoto.naturalWidth
+          : video.videoWidth || 640;
+        canvasElement.height = stage.classList.contains("photo-on")
+          ? uploadedPhoto.naturalHeight
+          : video.videoHeight || 480;
+
+        canvasCtx.save();
+        canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+
+        if (
+          results.multiFaceLandmarks &&
+          results.multiFaceLandmarks.length > 0
+        ) {
+          faceDetected = true;
+          for (const landmarks of results.multiFaceLandmarks) {
+            drawConnectors(canvasCtx, landmarks, FACEMESH_TESSELATION, {
+              color: "#a4866340",
+              lineWidth: 1,
+            });
+            drawConnectors(canvasCtx, landmarks, FACEMESH_FACE_OVAL, {
+              color: "#a48663",
+              lineWidth: 2,
+            });
+            drawConnectors(canvasCtx, landmarks, FACEMESH_LEFT_EYE, {
+              color: "#3d332a",
+              lineWidth: 1,
+            });
+            drawConnectors(canvasCtx, landmarks, FACEMESH_RIGHT_EYE, {
+              color: "#3d332a",
+              lineWidth: 1,
+            });
+            updateFaceInfo(landmarks);
+          }
+        } else {
+          faceDetected = false;
+          faceInfo.innerHTML = `Detected Face Shape: <b>Not found</b><br>Bridge: <b>—</b><br>Face Width: <b>—</b>`;
+        }
+        canvasCtx.restore();
+      }
+
+      // 3. TÍNH TOÁN KHUÔN MẶT
+      function updateFaceInfo(landmarks) {
+        const faceWidthPt = dist(landmarks[454], landmarks[234]);
+        const faceHeightPt = dist(landmarks[10], landmarks[152]);
+        const jawWidthPt = dist(landmarks[172], landmarks[397]);
+        const eyeDistance = dist(landmarks[133], landmarks[362]);
+
+        const ratio = faceHeightPt / faceWidthPt;
+        const jawRatio = jawWidthPt / faceWidthPt;
+
+        let shape = "Oval";
+        if (ratio < 1.15) {
+          shape = jawRatio > 0.85 ? "Square" : "Round";
+        } else if (ratio > 1.45) {
+          shape = "Oblong";
+        } else {
+          shape = jawRatio < 0.75 ? "Heart" : "Oval";
         }
 
-        function stopCamera() {
-            if (currentStream) {
-                currentStream.getTracks().forEach((track) => track.stop());
-                currentStream = null;
-            }
-            video.srcObject = null;
-            stage.classList.remove("camera-on");
-            cameraError.style.display = "none";
+        const bridgeRatio = eyeDistance / faceWidthPt;
+        const bridge =
+          bridgeRatio < 0.24 ? "Narrow" : bridgeRatio > 0.3 ? "Wide" : "Medium";
+        const widthLabel =
+          faceWidthPt / faceHeightPt > 0.78 ? "Wide" : "Medium";
+
+        faceInfo.innerHTML = `Detected Face Shape: <b>${shape}</b><br>Bridge: <b>${bridge}</b><br>Face Width: <b>${widthLabel}</b>`;
+      }
+
+      function dist(a, b) {
+        return Math.hypot(a.x - b.x, a.y - b.y);
+      }
+
+      // 4. KẾT NỐI CAMERA VỚI AI
+      async function startCamera() {
+        cameraError.style.display = "none";
+        clearUploadedPhoto();
+        discardCapturedPhoto();
+
+        try {
+          currentStream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: "user" },
+            audio: false,
+          });
+          video.srcObject = currentStream;
+          stage.classList.add("camera-on");
+          updateCaptureButton();
+
+          // Sử dụng Camera Utils của MediaPipe để liên tục đẩy khung hình cho AI phân tích
+          mpCamera = new Camera(video, {
+            onFrame: async () => {
+              if (stage.classList.contains("camera-on"))
+                await faceMesh.send({ image: video });
+            },
+            width: 640,
+            height: 480,
+          });
+          mpCamera.start();
+        } catch (err) {
+          cameraError.textContent =
+            "Unable to access the camera. Please allow camera permission in your browser.";
+          cameraError.style.display = "block";
         }
+      }
 
-        function clearUploadedPhoto() {
-            if (uploadedPhotoUrl) {
-                URL.revokeObjectURL(uploadedPhotoUrl);
-                uploadedPhotoUrl = null;
-            }
-            uploadedPhoto.src = "";
-            stage.classList.remove("photo-on");
-            uploadInput.value = "";
+      function stopCamera() {
+        if (mpCamera) {
+          mpCamera.stop();
+          mpCamera = null;
         }
-
-        function capturePhoto() {
-            if (!video.videoWidth || !video.videoHeight) return;
-
-            captureCanvas.width = video.videoWidth;
-            captureCanvas.height = video.videoHeight;
-
-            const ctx = captureCanvas.getContext("2d");
-            // Un-mirror the shot so the saved photo matches real life,
-            // even though the live preview is mirrored like a mirror.
-            ctx.translate(captureCanvas.width, 0);
-            ctx.scale(-1, 1);
-            ctx.drawImage(video, 0, 0, captureCanvas.width, captureCanvas.height);
-
-            const dataUrl = captureCanvas.toDataURL("image/png");
-            capturedPhoto.src = dataUrl;
-            capturedPhotoDataUrl = dataUrl;
-
-            stopCamera();
-            stage.classList.add("captured-on");
-            updateCaptureButton();
+        if (currentStream) {
+          currentStream.getTracks().forEach((track) => track.stop());
+          currentStream = null;
         }
+        video.srcObject = null;
+        stage.classList.remove("camera-on");
+        cameraError.style.display = "none";
+        canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+      }
 
-        function discardCapturedPhoto() {
-            capturedPhoto.src = "";
-            capturedPhotoDataUrl = null;
-            stage.classList.remove("captured-on");
-        }
+      // 5. XỬ LÝ UPLOAD HÌNH ẢNH (Gửi cho AI phân tích)
+      uploadInput.addEventListener("change", function (e) {
+        const file = e.target.files[0];
+        if (!file) return;
 
-        function updateCaptureButton() {
-            captureIcon.className = "";
-            if (stage.classList.contains("captured-on")) {
-                captureIcon.classList.add("bi", "bi-arrow-counterclockwise");
-                captureBtn.title = "Retake photo";
-            } else if (stage.classList.contains("camera-on")) {
-                captureIcon.classList.add("bi", "bi-camera-fill");
-                captureBtn.title = "Capture photo";
-            } else {
-                captureIcon.classList.add("bi", "bi-camera-fill");
-                captureBtn.title = "Open camera";
-            }
+        stopCamera();
+        discardCapturedPhoto();
+        cameraError.style.display = "none";
 
-            if (capturedPhotoDataUrl) {
-                shareBtn.style.opacity = "1";
-                shareBtn.style.cursor = "pointer";
-                shareBtn.title = "Save photo";
-            } else {
-                shareBtn.style.opacity = "0.4";
-                shareBtn.style.cursor = "default";
-                shareBtn.title = "Capture a photo first";
-            }
-        }
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          uploadedPhotoUrl = event.target.result;
+          uploadedPhoto.src = uploadedPhotoUrl;
 
-        captureBtn.addEventListener("click", function () {
-            if (stage.classList.contains("camera-on")) {
-                capturePhoto();
-            } else if (stage.classList.contains("captured-on")) {
-                discardCapturedPhoto();
-                startCamera();
-            } else {
-                startCamera();
-            }
-        });
-
-        shareBtn.addEventListener("click", function () {
-            if (!capturedPhotoDataUrl) return;
-
-            const link = document.createElement("a");
-            link.href = capturedPhotoDataUrl;
-            link.download = "kooleyes-tryon.png";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
-
-        uploadInput.addEventListener("change", function (e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            stopCamera();
-            discardCapturedPhoto();
-            cameraError.style.display = "none";
-
-            uploadedPhotoUrl = URL.createObjectURL(file);
-            uploadedPhoto.src = uploadedPhotoUrl;
+          uploadedPhoto.onload = async () => {
             stage.classList.add("photo-on");
             updateCaptureButton();
-        });
+            // Gửi ảnh vừa tải lên cho AI phân tích
+            await faceMesh.send({ image: uploadedPhoto });
+          };
+        };
+        reader.readAsDataURL(file);
+      });
 
-        resetBtn.addEventListener("click", function () {
-            stopCamera();
-            clearUploadedPhoto();
-            discardCapturedPhoto();
-            updateCaptureButton();
-        });
+      function clearUploadedPhoto() {
+        uploadedPhoto.src = "";
+        stage.classList.remove("photo-on");
+        uploadInput.value = "";
+        faceInfo.innerHTML = `Detected Face Shape: <b>—</b><br>Bridge: <b>—</b><br>Face Width: <b>—</b>`;
+        canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+      }
 
+      // 6. CHỤP ẢNH KẾT QUẢ
+      function capturePhoto() {
+        if (!video.videoWidth) return;
+
+        captureCanvas.width = video.videoWidth;
+        captureCanvas.height = video.videoHeight;
+        const ctx = captureCanvas.getContext("2d");
+
+        // Chụp camera
+        ctx.translate(captureCanvas.width, 0);
+        ctx.scale(-1, 1);
+        ctx.drawImage(video, 0, 0, captureCanvas.width, captureCanvas.height);
+        ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
+        // Vẽ đè lưới AI lên
+        ctx.drawImage(
+          canvasElement,
+          0,
+          0,
+          captureCanvas.width,
+          captureCanvas.height,
+        );
+
+        capturedPhotoDataUrl = captureCanvas.toDataURL("image/png");
+        capturedPhoto.src = capturedPhotoDataUrl;
+
+        stopCamera();
+        stage.classList.add("captured-on");
         updateCaptureButton();
-    </script>
-</body>
+      }
 
+      function discardCapturedPhoto() {
+        capturedPhoto.src = "";
+        capturedPhotoDataUrl = null;
+        stage.classList.remove("captured-on");
+        canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+      }
+
+      function updateCaptureButton() {
+        captureIcon.className = "";
+        if (stage.classList.contains("captured-on")) {
+          captureIcon.classList.add("bi", "bi-arrow-counterclockwise");
+          captureBtn.title = "Retake photo";
+        } else if (stage.classList.contains("camera-on")) {
+          captureIcon.classList.add("bi", "bi-camera-fill");
+          captureBtn.title = "Capture photo";
+        } else {
+          captureIcon.classList.add("bi", "bi-camera-fill");
+          captureBtn.title = "Open camera";
+        }
+
+        if (capturedPhotoDataUrl || stage.classList.contains("photo-on")) {
+          shareBtn.style.opacity = "1";
+          shareBtn.style.cursor = "pointer";
+        } else {
+          shareBtn.style.opacity = "0.4";
+          shareBtn.style.cursor = "default";
+        }
+      }
+
+      captureBtn.addEventListener("click", function () {
+        if (stage.classList.contains("camera-on")) {
+          capturePhoto();
+        } else if (stage.classList.contains("captured-on")) {
+          discardCapturedPhoto();
+          startCamera();
+        } else if (!stage.classList.contains("photo-on")) {
+          startCamera();
+        }
+      });
+
+      shareBtn.addEventListener("click", function () {
+        const link = document.createElement("a");
+        link.download = "kooleyes-tryon.png";
+        // Nếu có ảnh chụp thì tải ảnh chụp, nếu đang dùng ảnh upload thì tải ảnh upload kèm lưới
+        if (capturedPhotoDataUrl) {
+          link.href = capturedPhotoDataUrl;
+        } else if (stage.classList.contains("photo-on")) {
+          const snapCanvas = document.createElement("canvas");
+          snapCanvas.width = canvasElement.width;
+          snapCanvas.height = canvasElement.height;
+          const ctx = snapCanvas.getContext("2d");
+          ctx.drawImage(
+            uploadedPhoto,
+            0,
+            0,
+            snapCanvas.width,
+            snapCanvas.height,
+          );
+          ctx.drawImage(canvasElement, 0, 0);
+          link.href = snapCanvas.toDataURL("image/png");
+        } else return;
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+
+      resetBtn.addEventListener("click", function () {
+        stopCamera();
+        clearUploadedPhoto();
+        discardCapturedPhoto();
+        updateCaptureButton();
+      });
+
+      updateCaptureButton();
+    </script>
+  </body>
 </html>

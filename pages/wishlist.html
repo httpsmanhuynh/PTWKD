@@ -33,6 +33,168 @@
       .wishlist-remove-btn:hover {
         color: #d9564a;
       }
+      /* ===== CART DRAWER ===== */
+      .cart-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.35);
+        opacity: 0;
+        visibility: hidden;
+        z-index: 998;
+        transition: 0.25s ease;
+      }
+
+      .cart-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .cart-drawer {
+        position: fixed;
+        top: 0;
+        right: -430px;
+        z-index: 999;
+        width: 390px;
+        max-width: 90%;
+        height: 100vh;
+        background: #fffaf6;
+        padding: 28px 30px;
+        box-shadow: -8px 0 30px rgba(0, 0, 0, 0.12);
+        transition: 0.3s ease;
+        overflow-y: auto;
+      }
+
+      .cart-drawer.active {
+        right: 0;
+      }
+
+      .cart-drawer-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .cart-drawer-header h2 {
+        color: #222;
+        font-size: 26px;
+        font-weight: 800;
+      }
+
+      .close-cart {
+        border: none;
+        background: transparent;
+        color: #7b6657;
+        cursor: pointer;
+        font-size: 30px;
+        line-height: 1;
+      }
+
+      .cart-drawer-line {
+        width: 100%;
+        height: 1px;
+        background: #e7ddd4;
+        margin: 22px 0 28px;
+      }
+
+      .drawer-item {
+        display: grid;
+        grid-template-columns: 82px 1fr 28px;
+        gap: 16px;
+        align-items: center;
+        margin-bottom: 24px;
+      }
+
+      .drawer-item-img {
+        width: 82px;
+        height: 82px;
+        background: #f3f2f2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .drawer-item-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 10px;
+      }
+
+      .drawer-item-info h3 {
+        margin-bottom: 8px;
+        color: #222;
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .drawer-item-info p {
+        margin: 0;
+        color: #7b6657;
+        font-size: 13px;
+      }
+
+      .drawer-item-info strong {
+        display: block;
+        margin-top: 6px;
+        color: #b8934f;
+        font-size: 14px;
+      }
+
+      .remove-item {
+        border: none;
+        background: transparent;
+        color: #7b6657;
+        cursor: pointer;
+        font-size: 22px;
+      }
+
+      .empty-cart {
+        color: #8f8175;
+        font-size: 14px;
+        margin: 40px 0;
+      }
+
+      .drawer-subtotal {
+        border-top: 1px solid #e7ddd4;
+        padding-top: 22px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 28px 0;
+      }
+
+      .drawer-subtotal span {
+        color: #222;
+        font-size: 16px;
+      }
+
+      .drawer-subtotal strong {
+        color: #b8934f;
+        font-size: 16px;
+      }
+
+      .drawer-actions {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .drawer-actions a {
+        flex: 1;
+        height: 34px;
+        border: 1px solid #222;
+        border-radius: 999px;
+        color: #222;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .drawer-actions a:hover {
+        background: #222;
+        color: #fff;
+      }
     </style>
   </head>
 
@@ -231,7 +393,7 @@
             <div class="wishlist-item mb-3" data-name="Saga">
               <div class="d-flex align-items-center gap-3 p-3 flex-wrap">
                 <img
-                  src="../assets/images/product_Pico_Silver.jpg"
+                  src="../assets/images/Kooleyes Pocket/Pico - 939,800đ/Pico_(Silver).jpg"
                   class="wishlist-item-img"
                   alt="Saga"
                 />
@@ -255,7 +417,7 @@
             <div class="wishlist-item mb-3" data-name="Harv">
               <div class="d-flex align-items-center gap-3 p-3 flex-wrap">
                 <img
-                  src="../assets/images/product_Musubi_Brown.jpg"
+                  src="../assets/images/Sản phẩm lẻ/Musubi - 803,600đ/Musubi_(Brown).jpg"
                   class="wishlist-item-img"
                   alt="Harv"
                 />
@@ -276,7 +438,7 @@
             </div>
           </div>
 
-          <!-- EMPTY STATE (hidden by default) -->
+          <!-- EMPTY STATE -->
           <div
             id="wishlistEmpty"
             class="text-center py-5"
@@ -397,9 +559,44 @@
         </div>
       </div>
     </footer>
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <aside class="cart-drawer" id="cartDrawer">
+      <div class="cart-drawer-header">
+        <h2>Shopping Cart</h2>
+        <button type="button" id="closeCartDrawer" class="close-cart">×</button>
+      </div>
+      <div class="cart-drawer-line"></div>
+      <div id="cartDrawerItems"></div>
+      <div class="drawer-subtotal">
+        <span>Subtotal</span>
+        <strong id="cartDrawerSubtotal">0 VND</strong>
+      </div>
+      <div class="drawer-actions">
+        <a href="cart.html">Cart</a>
+        <a href="checkout.html">Checkout</a>
+      </div>
+    </aside>
+
+    <script src="../assets/data/product.js"></script>
+    <script src="../assets/js/site-cart.js"></script>
 
     <script>
-      // REMOVE FROM WISHLIST
+      // 1. ĐÓNG SIDE CART
+      document
+        .getElementById("closeCartDrawer")
+        .addEventListener("click", function () {
+          document.getElementById("cartDrawer").classList.remove("active");
+          document.getElementById("cartOverlay").classList.remove("active");
+        });
+
+      document
+        .getElementById("cartOverlay")
+        .addEventListener("click", function () {
+          document.getElementById("cartDrawer").classList.remove("active");
+          document.getElementById("cartOverlay").classList.remove("active");
+        });
+
+      // 2. REMOVE FROM WISHLIST
       document.querySelectorAll(".wishlist-remove-btn").forEach((btn) => {
         btn.addEventListener("click", () => {
           const item = btn.closest(".wishlist-item");
@@ -415,6 +612,48 @@
           empty.style.display = "block";
         }
       }
+
+      // 3. ADD TO CART & MỞ SIDE CART
+      document.querySelectorAll(".wishlist-item").forEach((item) => {
+        const addToCartBtn = item.querySelector(".btn-brand");
+
+        addToCartBtn.addEventListener("click", function () {
+          const name = item.querySelector(".fw-bold").innerText.trim();
+          const colorText = item.querySelector(".text-muted.small").innerText;
+          const color = colorText.split("·")[0].trim();
+          const priceText = item.querySelector(".fw-bold.small.mt-1").innerText;
+          const price = priceText.replace(/\D/g, "");
+          const image = item
+            .querySelector(".wishlist-item-img")
+            .getAttribute("src");
+
+          let cart = getCart();
+          let existingItemIndex = cart.findIndex(
+            (i) => i.name === name && i.color === color,
+          );
+
+          if (existingItemIndex > -1) {
+            cart[existingItemIndex].quantity += 1;
+          } else {
+            cart.push({
+              name: name,
+              price: price,
+              color: color,
+              image: image,
+              quantity: 1,
+            });
+          }
+
+          saveCart(cart);
+
+          if (typeof renderCartDrawer === "function") {
+            renderCartDrawer();
+          }
+
+          document.getElementById("cartDrawer").classList.add("active");
+          document.getElementById("cartOverlay").classList.add("active");
+        });
+      });
     </script>
 
     <script src="../assets/js/bootstrap.bundle.min.js"></script>

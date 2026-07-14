@@ -1,6 +1,4 @@
-// ============================================================
-// KOLEYES - CART LOGIC (Global)
-// ============================================================
+// KOLEYES - CART LOGIC
 
 function getCart() {
   return JSON.parse(localStorage.getItem("kooleyesCart")) || [];

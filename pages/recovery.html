@@ -1,334 +1,416 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kooleyes - Password Recovery</title>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kooleyes - Password Recovery</title>
+    <link rel="stylesheet" href="../assets/css/bootstrap-icons.css" />
+    <link rel="stylesheet" href="../assets/css/bootstrap.css" />
+    <link rel="stylesheet" href="../assets/css/style_thao.css" />
+  </head>
 
-  <link rel="stylesheet" href="../assets/css/bootstrap-icons.css" />
-  <link rel="stylesheet" href="../assets/css/bootstrap.css" />
-  <link rel="stylesheet" href="../assets/css/style_thao.css" />
-</head>
-
-<body>
-  <div class="topbar text-center py-2 border-bottom position-relative">
-    <span class="topbar-msg">Free shipping for orders above 499.000 VND - Hotline 1900 123 654</span>
-    <span class="topbar-auth position-absolute top-50 end-0 translate-middle-y me-4">
-    </span>
-  </div>
-
-  <!-- NAVBAR -->
-  <header class="navbar navbar-expand-lg navbar-light py-2 border-bottom" style="background-color: #fdf9f6">
-    <div class="container-fluid px-4 px-lg-5">
-      <!-- Logo -->
-      <a class="navbar-brand" href="lookbook_cus.html">
-        <img src="../assets/images/Logo.png" alt="Kooleyes" style="height: 55px" />
-      </a>
-
-      <!-- Nút toggle cho mobile -->
-      <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
-        data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <!-- Menu chính -->
-      <div class="collapse navbar-collapse" id="mainNav">
-        <ul class="navbar-nav mx-auto gap-lg-4 text-uppercase small">
-          <li class="nav-item">
-            <a class="nav-link" href="lookbook_guest.html">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="homepage.html">Products</a>
-          </li>
-
-          <!-- Dropdown Collections -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
-              Collections
-            </a>
-            <ul class="dropdown-menu shadow-sm border-0" aria-labelledby="navbarDropdown">
-              <li>
-                <a class="dropdown-item" href="#">Crystal Collection</a>
-              </li>
-              <li><a class="dropdown-item" href="#">Aero Collection</a></li>
-              <li><a class="dropdown-item" href="#">Veggie Collection</a></li>
-              <li><a class="dropdown-item" href="#">Pocket Collection</a></li>
-              <li><a class="dropdown-item" href="#">Edge Collection</a></li>
-              <li><a class="dropdown-item" href="#">Retro Collection</a></li>
-              <li><a class="dropdown-item" href="#">Solar Collection</a></li>
-              <li><a class="dropdown-item" href="#">Urban Collection</a></li>
-              <li><a class="dropdown-item" href="#">Cyber Collection</a></li>
-            </ul>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" href="about.html">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="contact.html">Contact</a>
-          </li>
-        </ul>
-
-        <!-- Các Icon phía bên phải -->
-        <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
-          <div class="d-none d-lg-flex align-items-center rounded-pill border px-3 py-1">
-            <input type="text" class="form-control form-control-sm border-0 bg-transparent shadow-none"
-              placeholder="Search" />
-            <i class="bi bi-search"></i>
-          </div>
-          <a href="#" class="text-dark text-decoration-none">
-            <i class="bi bi-heart fs-5" role="button"></i>
-          </a>
-          <a href="#" class="text-dark text-decoration-none">
-            <i class="bi bi-cart fs-5" role="button"></i>
-          </a>
-        </div>
-      </div>
+  <body>
+    <div class="topbar text-center py-2 border-bottom position-relative">
+      <span class="topbar-msg"
+        >Free shipping for orders above 499.000 VND - Hotline 1900 123 654</span
+      >
+      <span
+        class="topbar-auth position-absolute top-50 end-0 translate-middle-y me-4"
+      >
+      </span>
     </div>
-  </header>
-  <!-- PASSWORD RECOVERY -->
-  <section class="auth-section">
-    <div class="auth-card auth-card-simple">
-      <div class="p-4">
-        <h5 class="text-center mb-2">Password Recovery</h5>
 
-        <p class="text-center text-muted small mb-4">
-          We've sent a verification code to
-          <strong id="recoveryEmail">your email</strong>. Please enter the
-          code below to continue.
-        </p>
+    <!-- NAVBAR -->
+    <header
+      class="navbar navbar-expand-lg navbar-light py-2 border-bottom"
+      style="background-color: #fdf9f6"
+    >
+      <div class="container-fluid px-4 px-lg-5">
+        <!-- Logo -->
+        <a class="navbar-brand" href="lookbook_cus.html">
+          <img
+            src="../assets/images/Logo.png"
+            alt="Kooleyes"
+            style="height: 55px"
+          />
+        </a>
 
-        <div class="mb-4">
-          <label class="form-label small fw-bold"> Verification Code </label>
-
-          <div class="d-flex gap-2 justify-content-between otp-group">
-            <input type="text" maxlength="1" class="form-control otp-input text-center" />
-            <input type="text" maxlength="1" class="form-control otp-input text-center" />
-            <input type="text" maxlength="1" class="form-control otp-input text-center" />
-            <input type="text" maxlength="1" class="form-control otp-input text-center" />
-            <input type="text" maxlength="1" class="form-control otp-input text-center" />
-            <input type="text" maxlength="1" class="form-control otp-input text-center" />
-          </div>
-        </div>
-
-        <button type="button" onclick="verifyCode()" class="btn btn-auth w-100 mb-3">
-          VERIFY CODE
-          <i class="bi bi-arrow-right ms-2"></i>
+        <!-- Nút toggle cho mobile -->
+        <button
+          class="navbar-toggler border-0 shadow-none"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#mainNav"
+          aria-controls="mainNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
         </button>
 
-        <p class="text-center small mb-0">
-          Didn't receive the code?
-          <a href="javascript:void(0)" onclick="resendCode()" class="link-auth">
-            Resend
-          </a>
-        </p>
+        <!-- Menu chính -->
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav mx-auto gap-lg-4 text-uppercase small">
+            <li class="nav-item">
+              <a class="nav-link" href="lookbook_guest.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="homepage.html">Products</a>
+            </li>
 
-        <hr />
+            <!-- Dropdown Collections -->
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Collections
+              </a>
+              <ul
+                class="dropdown-menu shadow-sm border-0"
+                aria-labelledby="navbarDropdown"
+              >
+                <li>
+                  <a class="dropdown-item" href="#">Crystal Collection</a>
+                </li>
+                <li><a class="dropdown-item" href="#">Aero Collection</a></li>
+                <li><a class="dropdown-item" href="#">Veggie Collection</a></li>
+                <li><a class="dropdown-item" href="#">Pocket Collection</a></li>
+                <li><a class="dropdown-item" href="#">Edge Collection</a></li>
+                <li><a class="dropdown-item" href="#">Retro Collection</a></li>
+                <li><a class="dropdown-item" href="#">Solar Collection</a></li>
+                <li><a class="dropdown-item" href="#">Urban Collection</a></li>
+                <li><a class="dropdown-item" href="#">Cyber Collection</a></li>
+              </ul>
+            </li>
 
-        <p class="small text-muted mb-0 text-center">
-          Remember your password?
-          <a href="login-register.html" class="link-auth">Sign In</a>
-        </p>
-      </div>
-    </div>
-  </section>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html">Contact</a>
+            </li>
+          </ul>
 
-  <!-- FOOTER -->
-  <footer class="footer pt-5 pb-3 border-top">
-    <div class="container">
-      <div class="row mb-5 g-4">
-        <div class="col-lg-4 col-md-12">
-          <h3 class="d-block mx-auto">
-            <img src="../assets/images/Logo.png" alt="Kooleyes Logo" class="d-block mx-auto"
-              style="height: 120px; width: auto" />
-          </h3>
-          <p class="fw-bold small mb-4" style="color: #7c6858; text-align: center">
-            Kool Eyes, Kool Style
-          </p>
-          <div class="subscribe-wrapper rounded-pill d-flex align-items-center p-1 mx-auto">
-            <input type="email" class="form-control border-0 bg-transparent px-3 shadow-none"
-              placeholder="Enter your e-mail" />
-            <button class="btn btn-dark rounded-pill px-4" type="button">
-              Subscribe Now!
-            </button>
+          <!-- Các Icon phía bên phải -->
+          <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+            <div
+              class="d-none d-lg-flex align-items-center rounded-pill border px-3 py-1"
+            >
+              <input
+                type="text"
+                class="form-control form-control-sm border-0 bg-transparent shadow-none"
+                placeholder="Search"
+              />
+              <i class="bi bi-search"></i>
+            </div>
+            <a href="#" class="text-dark text-decoration-none">
+              <i class="bi bi-heart fs-5" role="button"></i>
+            </a>
+            <a href="#" class="text-dark text-decoration-none">
+              <i class="bi bi-cart fs-5" role="button"></i>
+            </a>
           </div>
         </div>
-        <div class="col-lg-3 col-md-4 col-sm-12">
-          <h6 class="fw-bold mb-3">KOOLEYES EYEWEAR</h6>
-          <ul class="list-unstyled text-muted small">
-            <li class="mb-1">Enterprise Registration No.: 0110449461</li>
-            <li class="mb-1">first issued on August 25, 2025,</li>
-            <li class="mb-1">Ho Chi Minh City People's Committee.</li>
-            <li class="mb-1">669 Do Muoi, Thu Duc City, HCMC, Vietnam</li>
-          </ul>
-        </div>
-        <div class="col-lg-2 col-md-4 col-sm-12">
-          <h6 class="fw-bold mb-3">POLICY</h6>
-          <ul class="list-unstyled text-muted small">
-            <li class="mb-1">
-              <a href="#" class="text-decoration-none text-muted">Return and Exchange Policy</a>
-            </li>
-            <li class="mb-1">
-              <a href="#" class="text-decoration-none text-muted">Privacy Policy</a>
-            </li>
-            <li class="mb-1">
-              <a href="#" class="text-decoration-none text-muted">Warranty Policy</a>
-            </li>
-            <li class="mb-1">
-              <a href="#" class="text-decoration-none text-muted">Shipping Policy</a>
-            </li>
-            <li class="mb-1">
-              <a href="#" class="text-decoration-none text-muted">Payment Policy</a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-12">
-          <h6 class="fw-bold mb-3">SUPPORT</h6>
-          <ul class="list-unstyled text-muted small">
-            <li class="mb-1">
-              <a href="#" class="text-decoration-none text-muted">Store Location</a>
-            </li>
-            <li class="mb-1">
-              <a href="#" class="text-decoration-none text-muted">F.A.Q</a>
-            </li>
-            <li class="mb-1">1900 1234</li>
-            <li class="mb-1">kooleyesxinchao@gmail.com</li>
-          </ul>
+      </div>
+    </header>
+    <!-- PASSWORD RECOVERY -->
+    <section class="auth-section">
+      <div class="auth-card auth-card-simple">
+        <div class="p-4">
+          <h5 class="text-center mb-2">Password Recovery</h5>
+
+          <p class="text-center text-muted small mb-4">
+            We've sent a verification code to
+            <strong id="recoveryEmail">your email</strong>. Please enter the
+            code below to continue.
+          </p>
+
+          <div class="mb-4">
+            <label class="form-label small fw-bold"> Verification Code </label>
+
+            <div class="d-flex gap-2 justify-content-between otp-group">
+              <input
+                type="text"
+                maxlength="1"
+                class="form-control otp-input text-center"
+              />
+              <input
+                type="text"
+                maxlength="1"
+                class="form-control otp-input text-center"
+              />
+              <input
+                type="text"
+                maxlength="1"
+                class="form-control otp-input text-center"
+              />
+              <input
+                type="text"
+                maxlength="1"
+                class="form-control otp-input text-center"
+              />
+              <input
+                type="text"
+                maxlength="1"
+                class="form-control otp-input text-center"
+              />
+              <input
+                type="text"
+                maxlength="1"
+                class="form-control otp-input text-center"
+              />
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onclick="verifyCode()"
+            class="btn btn-auth w-100 mb-3"
+          >
+            VERIFY CODE
+            <i class="bi bi-arrow-right ms-2"></i>
+          </button>
+
+          <p class="text-center small mb-0">
+            Didn't receive the code?
+            <a
+              href="javascript:void(0)"
+              onclick="resendCode()"
+              class="link-auth"
+            >
+              Resend
+            </a>
+          </p>
+
+          <hr />
+
+          <p class="small text-muted mb-0 text-center">
+            Remember your password?
+            <a href="login-register.html" class="link-auth">Sign In</a>
+          </p>
         </div>
       </div>
+    </section>
 
-      <div class="d-flex flex-column flex-md-row justify-content-between border-top pt-4">
-        <p class="text-muted small mb-0">
-          Copyright 2026 © Kooleyes All Rights Reserved.
-        </p>
-        <div class="d-flex gap-3 mt-3 mt-md-0">
-          <i class="bi bi-facebook" role="button"></i>
-          <i class="bi bi-instagram" role="button"></i>
-          <i class="bi bi-tiktok" role="button"></i>
+    <!-- FOOTER -->
+    <footer class="footer pt-5 pb-3 border-top">
+      <div class="container">
+        <div class="row mb-5 g-4">
+          <div class="col-lg-4 col-md-12">
+            <h3 class="d-block mx-auto">
+              <img
+                src="../assets/images/Logo.png"
+                alt="Kooleyes Logo"
+                class="d-block mx-auto"
+                style="height: 120px; width: auto"
+              />
+            </h3>
+            <p
+              class="fw-bold small mb-4"
+              style="color: #7c6858; text-align: center"
+            >
+              Kool Eyes, Kool Style
+            </p>
+            <div
+              class="subscribe-wrapper rounded-pill d-flex align-items-center p-1 mx-auto"
+            >
+              <input
+                type="email"
+                class="form-control border-0 bg-transparent px-3 shadow-none"
+                placeholder="Enter your e-mail"
+              />
+              <button class="btn btn-dark rounded-pill px-4" type="button">
+                Subscribe Now!
+              </button>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-12">
+            <h6 class="fw-bold mb-3">KOOLEYES EYEWEAR</h6>
+            <ul class="list-unstyled text-muted small">
+              <li class="mb-1">Enterprise Registration No.: 0110449461</li>
+              <li class="mb-1">first issued on August 25, 2025,</li>
+              <li class="mb-1">Ho Chi Minh City People's Committee.</li>
+              <li class="mb-1">669 Do Muoi, Thu Duc City, HCMC, Vietnam</li>
+            </ul>
+          </div>
+          <div class="col-lg-2 col-md-4 col-sm-12">
+            <h6 class="fw-bold mb-3">POLICY</h6>
+            <ul class="list-unstyled text-muted small">
+              <li class="mb-1">
+                <a href="#" class="text-decoration-none text-muted"
+                  >Return and Exchange Policy</a
+                >
+              </li>
+              <li class="mb-1">
+                <a href="#" class="text-decoration-none text-muted"
+                  >Privacy Policy</a
+                >
+              </li>
+              <li class="mb-1">
+                <a href="#" class="text-decoration-none text-muted"
+                  >Warranty Policy</a
+                >
+              </li>
+              <li class="mb-1">
+                <a href="#" class="text-decoration-none text-muted"
+                  >Shipping Policy</a
+                >
+              </li>
+              <li class="mb-1">
+                <a href="#" class="text-decoration-none text-muted"
+                  >Payment Policy</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-12">
+            <h6 class="fw-bold mb-3">SUPPORT</h6>
+            <ul class="list-unstyled text-muted small">
+              <li class="mb-1">
+                <a href="#" class="text-decoration-none text-muted"
+                  >Store Location</a
+                >
+              </li>
+              <li class="mb-1">
+                <a href="#" class="text-decoration-none text-muted">F.A.Q</a>
+              </li>
+              <li class="mb-1">1900 1234</li>
+              <li class="mb-1">kooleyesxinchao@gmail.com</li>
+            </ul>
+          </div>
+        </div>
+
+        <div
+          class="d-flex flex-column flex-md-row justify-content-between border-top pt-4"
+        >
+          <p class="text-muted small mb-0">
+            Copyright 2026 © Kooleyes All Rights Reserved.
+          </p>
+          <div class="d-flex gap-3 mt-3 mt-md-0">
+            <i class="bi bi-facebook" role="button"></i>
+            <i class="bi bi-instagram" role="button"></i>
+            <i class="bi bi-tiktok" role="button"></i>
+          </div>
         </div>
       </div>
-    </div>
-  </footer>
+    </footer>
 
-  <script>
-    // =============================
-    // HIỂN THỊ EMAIL TỪ FORGET PASSWORD
-    // =============================
-    const emailElement = document.getElementById("recoveryEmail");
+    <script>
+      // =============================
+      // HIỂN THỊ EMAIL TỪ FORGET PASSWORD
+      // =============================
+      const emailElement = document.getElementById("recoveryEmail");
 
-    let email = localStorage.getItem("recoveryEmail");
+      let email = localStorage.getItem("recoveryEmail");
 
-    if (email) {
-      let parts = email.split("@");
+      if (email) {
+        let parts = email.split("@");
 
-      if (parts.length === 2) {
-        let username = parts[0];
-        let domain = parts[1];
+        if (parts.length === 2) {
+          let username = parts[0];
+          let domain = parts[1];
 
-        let maskedName = "";
+          let maskedName = "";
 
-        if (username.length <= 3) {
-          maskedName = username + "***";
-        } else {
-          maskedName = username.substring(0, 3) + "***";
+          if (username.length <= 3) {
+            maskedName = username + "***";
+          } else {
+            maskedName = username.substring(0, 3) + "***";
+          }
+
+          emailElement.textContent = maskedName + "@" + domain;
         }
-
-        emailElement.textContent = maskedName + "@" + domain;
-      }
-    } else {
-      alert("Please enter your email first.");
-      window.location.href = "forget-password.html";
-    }
-
-    // =============================
-    // OTP AUTO FOCUS
-    // =============================
-    const otpInputs = document.querySelectorAll(".otp-input");
-
-    otpInputs.forEach((input, index) => {
-      input.addEventListener("paste", (e) => {
-        const pastedData = (e.clipboardData || window.clipboardData).getData(
-          "text",
-        );
-
-        if (/^\d{6}$/.test(pastedData)) {
-          e.preventDefault();
-
-          otpInputs.forEach((box, i) => {
-            box.value = pastedData[i] || "";
-          });
-
-          otpInputs[5].focus();
-        }
-      });
-
-      input.addEventListener("input", () => {
-        input.value = input.value.replace(/[^0-9]/g, "");
-
-        if (input.value.length === 1 && index < otpInputs.length - 1) {
-          otpInputs[index + 1].focus();
-        }
-      });
-
-      input.addEventListener("keydown", (e) => {
-        if (e.key === "Backspace" && input.value === "" && index > 0) {
-          otpInputs[index - 1].focus();
-        }
-      });
-    });
-
-    // =============================
-    // RESEND CODE
-    // =============================
-    function resendCode() {
-      const email = localStorage.getItem("recoveryEmail");
-
-      if (!email) {
+      } else {
+        alert("Please enter your email first.");
         window.location.href = "forget-password.html";
-        return;
       }
 
-      alert("Verification code resent successfully.\n(Demo: use 111111)");
+      // OTP AUTO FOCUS
+      const otpInputs = document.querySelectorAll(".otp-input");
 
-      console.log("Resend OTP:", email);
-    }
+      otpInputs.forEach((input, index) => {
+        input.addEventListener("paste", (e) => {
+          const pastedData = (e.clipboardData || window.clipboardData).getData(
+            "text",
+          );
 
-    // =============================
-    // VERIFY OTP
-    // =============================
-    // DEMO: chưa có backend gửi/kiểm tra mã thật,
-    // dùng mã cố định để test luồng xác thực
-    const DEMO_VERIFICATION_CODE = "111111";
+          if (/^\d{6}$/.test(pastedData)) {
+            e.preventDefault();
 
-    function verifyCode() {
-      let otp = "";
+            otpInputs.forEach((box, i) => {
+              box.value = pastedData[i] || "";
+            });
 
-      otpInputs.forEach((input) => {
-        otp += input.value;
+            otpInputs[5].focus();
+          }
+        });
+
+        input.addEventListener("input", () => {
+          input.value = input.value.replace(/[^0-9]/g, "");
+
+          if (input.value.length === 1 && index < otpInputs.length - 1) {
+            otpInputs[index + 1].focus();
+          }
+        });
+
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Backspace" && input.value === "" && index > 0) {
+            otpInputs[index - 1].focus();
+          }
+        });
       });
 
-      if (!/^\d{6}$/.test(otp)) {
-        alert("Please enter a valid 6-digit verification code.");
-        return;
+      // RESEND CODE
+      function resendCode() {
+        const email = localStorage.getItem("recoveryEmail");
+
+        if (!email) {
+          window.location.href = "forget-password.html";
+          return;
+        }
+
+        alert("Verification code resent successfully.\n(Demo: use 111111)");
+
+        console.log("Resend OTP:", email);
       }
 
-      // Sau này gọi API verify OTP thật tại đây, thay cho so sánh demo bên dưới
-      if (otp !== DEMO_VERIFICATION_CODE) {
-        alert("Invalid verification code. (Demo: use 111111)");
-        otpInputs.forEach((input) => (input.value = ""));
-        otpInputs[0].focus();
-        return;
+      // VERIFY OTP
+      // DEMO: chưa có backend gửi/kiểm tra mã thật,
+      // dùng mã cố định để test luồng xác thực
+      const DEMO_VERIFICATION_CODE = "111111";
+
+      function verifyCode() {
+        let otp = "";
+
+        otpInputs.forEach((input) => {
+          otp += input.value;
+        });
+
+        if (!/^\d{6}$/.test(otp)) {
+          alert("Please enter a valid 6-digit verification code.");
+          return;
+        }
+
+        // Sau này gọi API verify OTP thật tại đây, thay cho so sánh demo bên dưới
+        if (otp !== DEMO_VERIFICATION_CODE) {
+          alert("Invalid verification code. (Demo: use 111111)");
+          otpInputs.forEach((input) => (input.value = ""));
+          otpInputs[0].focus();
+          return;
+        }
+
+        localStorage.setItem("otpVerified", "true");
+
+        window.location.href = "reset_pw.html";
       }
+    </script>
 
-      localStorage.setItem("otpVerified", "true");
-
-      window.location.href = "reset_pw.html";
-    }
-  </script>
-
-  <script src="../assets/js/bootstrap.bundle.min.js"></script>
-</body>
-
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>

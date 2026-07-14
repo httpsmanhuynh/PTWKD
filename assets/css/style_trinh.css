@@ -1149,9 +1149,7 @@ header.navbar .nav-link.active {
   background: #222;
   color: #fff;
 }
-/* ============================
-   DROPDOWN MENU ĐỒNG BỘ
-============================ */
+/* DROPDOWN MENU ĐỒNG BỘ */
 .dropdown-menu,
 .navbar-nav .dropdown-menu,
 .account-dropdown-menu {
@@ -1197,7 +1195,7 @@ header.navbar .nav-link.active {
   margin: 0;
 }
 
-/* Ẩn mũi tên (spinners) của ô nhập số trên Firefox */
+/* Ẩn mũi tên của ô nhập số trên */
 .quantity-control input[type="number"] {
   -moz-appearance: textfield;
 }
