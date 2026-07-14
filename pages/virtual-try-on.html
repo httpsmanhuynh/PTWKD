@@ -511,29 +511,33 @@
               Bridge: <b>—</b><br />
               Face Width: <b>—</b>
             </div>
-            <hr />
-            <div class="rec-face-title">Recommended for Your Face</div>
 
-            <div class="rec-face-item">
-              <img
-                src="../assets/images/Sản phẩm lẻ/Saga - 858,000đ/Saga_(Clear).jpg"
-                alt="Saga"
-              />
-              <div>
-                <div class="rec-face-name">Saga Clear</div>
-                <div class="rec-face-match">[95% Match]</div>
-                <div class="rec-face-stars">★★★★★</div>
+            <div id="recommendationBlock" style="display: none">
+              <hr />
+              <div class="rec-face-title">Recommended for Your Face</div>
+
+              <div class="rec-face-item">
+                <img
+                  src="../assets/images/Sản phẩm lẻ/Saga - 858,000đ/Saga_(Clear).jpg"
+                  alt="Saga"
+                />
+                <div>
+                  <div class="rec-face-name">Saga Clear</div>
+                  <div class="rec-face-match">[95% Match]</div>
+                  <div class="rec-face-stars">★★★★★</div>
+                </div>
               </div>
-            </div>
-            <div class="rec-face-item">
-              <img
-                src="../assets/images/Kooleyes Veggie/Zest - 885,300đ/Zest_(Black).jpg"
-                alt="Zest"
-              />
-              <div>
-                <div class="rec-face-name">Zest Black</div>
-                <div class="rec-face-match">[90% Match]</div>
-                <div class="rec-face-stars">★★★★</div>
+
+              <div class="rec-face-item">
+                <img
+                  src="../assets/images/Kooleyes Veggie/Zest - 885,300đ/Zest_(Black).jpg"
+                  alt="Zest"
+                />
+                <div>
+                  <div class="rec-face-name">Zest Black</div>
+                  <div class="rec-face-match">[90% Match]</div>
+                  <div class="rec-face-stars">★★★★</div>
+                </div>
               </div>
             </div>
           </div>
@@ -553,7 +557,6 @@
       </div>
     </main>
 
-    <!-- Import thư viện AI MediaPipe -->
     <script
       src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"
       crossorigin="anonymous"
@@ -581,7 +584,6 @@
       const capturedPhoto = document.getElementById("capturedPhoto");
       const shareBtn = document.getElementById("shareBtn");
 
-      // AI DOM Elements
       const canvasElement = document.getElementById("overlayCanvas");
       const canvasCtx = canvasElement.getContext("2d");
       const faceInfo = document.getElementById("faceInfo");
@@ -592,7 +594,6 @@
       let capturedPhotoDataUrl = null;
       let faceDetected = false;
 
-      // 1. KHỞI TẠO AI FACEMESH
       const faceMesh = new FaceMesh({
         locateFile: (file) =>
           `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`,
@@ -605,7 +606,6 @@
       });
       faceMesh.onResults(onResults);
 
-      // 2. XỬ LÝ KẾT QUẢ AI VÀ VẼ LƯỚI
       function onResults(results) {
         canvasElement.width = stage.classList.contains("photo-on")
           ? uploadedPhoto.naturalWidth
@@ -622,6 +622,8 @@
           results.multiFaceLandmarks.length > 0
         ) {
           faceDetected = true;
+          recommendationBlock.style.display = "block";
+
           for (const landmarks of results.multiFaceLandmarks) {
             drawConnectors(canvasCtx, landmarks, FACEMESH_TESSELATION, {
               color: "#a4866340",
@@ -643,6 +645,7 @@
           }
         } else {
           faceDetected = false;
+          recommendationBlock.style.display = "none";
           faceInfo.innerHTML = `Detected Face Shape: <b>Not found</b><br>Bridge: <b>—</b><br>Face Width: <b>—</b>`;
         }
         canvasCtx.restore();
@@ -695,7 +698,6 @@
           stage.classList.add("camera-on");
           updateCaptureButton();
 
-          // Sử dụng Camera Utils của MediaPipe để liên tục đẩy khung hình cho AI phân tích
           mpCamera = new Camera(video, {
             onFrame: async () => {
               if (stage.classList.contains("camera-on"))
@@ -727,7 +729,6 @@
         canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
       }
 
-      // 5. XỬ LÝ UPLOAD HÌNH ẢNH (Gửi cho AI phân tích)
       uploadInput.addEventListener("change", function (e) {
         const file = e.target.files[0];
         if (!file) return;
@@ -744,7 +745,6 @@
           uploadedPhoto.onload = async () => {
             stage.classList.add("photo-on");
             updateCaptureButton();
-            // Gửi ảnh vừa tải lên cho AI phân tích
             await faceMesh.send({ image: uploadedPhoto });
           };
         };
@@ -756,6 +756,9 @@
         stage.classList.remove("photo-on");
         uploadInput.value = "";
         faceInfo.innerHTML = `Detected Face Shape: <b>—</b><br>Bridge: <b>—</b><br>Face Width: <b>—</b>`;
+
+        recommendationBlock.style.display = "none";
+
         canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
       }
 
@@ -772,7 +775,6 @@
         ctx.scale(-1, 1);
         ctx.drawImage(video, 0, 0, captureCanvas.width, captureCanvas.height);
         ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
-        // Vẽ đè lưới AI lên
         ctx.drawImage(
           canvasElement,
           0,
@@ -832,7 +834,6 @@
       shareBtn.addEventListener("click", function () {
         const link = document.createElement("a");
         link.download = "kooleyes-tryon.png";
-        // Nếu có ảnh chụp thì tải ảnh chụp, nếu đang dùng ảnh upload thì tải ảnh upload kèm lưới
         if (capturedPhotoDataUrl) {
           link.href = capturedPhotoDataUrl;
         } else if (stage.classList.contains("photo-on")) {
@@ -861,6 +862,9 @@
         clearUploadedPhoto();
         discardCapturedPhoto();
         updateCaptureButton();
+
+        faceInfo.innerHTML = `Detected Face Shape: <b>—</b><br>Bridge: <b>—</b><br>Face Width: <b>—</b>`;
+        recommendationBlock.style.display = "none";
       });
 
       updateCaptureButton();
